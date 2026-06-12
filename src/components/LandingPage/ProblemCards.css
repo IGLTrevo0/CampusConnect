@@ -1,0 +1,38 @@
+.problem-card{
+    flex: 1;
+    padding: 25px;
+    border: 2px solid black;
+    border-radius: 20px;
+    background-color: aliceblue;
+    box-shadow: 4px 4px 0px black;
+    transition: 0.3s ease;
+}
+.problem-card:hover{
+    transform: translateY(-5px);
+}
+.icon{
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid ;
+    border-radius: 12px;
+    background-color: bisque;
+    margin-bottom: 15px;
+}
+.icon img{
+    width: 30px;
+    height: 30px;
+}
+
+.problem-card-title{
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+.problem-card-description{
+    color: #555555;
+    line-height: 1.7;
+    font-size: 1.1rem;
+}

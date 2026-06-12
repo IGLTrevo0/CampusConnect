@@ -1,0 +1,108 @@
+.hero{
+    margin: 120px auto;
+    max-width: 1500px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 50px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.right-hero img{
+    width: 500px;
+    border: 3px solid black;
+    border-radius: 20px;
+    box-shadow: 6px 6px 0px black;
+
+}
+.topcard{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: 2px solid black;
+    border-radius: 90px;
+    background-color: #b0b0b0;
+}
+.topcard img{
+    width: 20px;
+    height: 20px;
+}
+.heading h1{
+    margin-top: 15px;
+    font-size: 5rem;
+    font-weight: 900;
+    line-height: 1.4;
+}
+.card2{
+    background-color: #ffcb21;
+    padding: 0 8px;
+    border: 3px solid black;
+    box-shadow: 1px 1px 5px #000000;
+}
+.card3{
+    background-color: #ffb74d;
+    padding: 0px 8px;
+    border: 3.5px solid black;
+    box-shadow: 1px 1px 5px #000000;
+}
+.hero-description{
+    margin-top: 25px;
+    max-width: 800px;
+    font-size: 1.4rem;
+    line-height: 1.5;
+    color: #555;
+}
+
+.hero-buttons{
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.no-acc{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 15px 25px;
+    border: 2px solid black;
+    border-radius: 12px;
+    background-color: #ffd54f;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: bold;
+    font-style: italic;
+    box-shadow: 3px 3px 0px black;
+}
+.have-acc{
+    padding: 15px 25px;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    font-style: italic;
+    cursor: pointer;
+}
+.no-acc:hover{
+    background-color: #ffd034;
+}
+
+.demo-skills{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    list-style: none;
+    margin-top: 20px;
+}
+.demo-skills li{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+    border-radius: 90px;
+    padding: 7px 15px;
+}
