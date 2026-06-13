@@ -1,4 +1,4 @@
-import logo from "../../assets/Images/ccicon.png";
+import logo from "./assets/Images/ccicon.png";
 import "./Navbar.css";
 import { useState, useEffect } from "react";
 

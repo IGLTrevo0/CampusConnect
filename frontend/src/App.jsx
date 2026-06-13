@@ -1,5 +1,5 @@
 import "./App.css";
-import Navbar from "./components/LandingPage/Navbar";
+import Navbar from "./Navbar";
 import Hero from "./components/LandingPage/Hero";
 import Stats from "./components/LandingPage/Stats";
 import Marquee from "./components/LandingPage/Marquee";
