@@ -1,4 +1,5 @@
 import "./App.css";
+import {Routes, Route} from "react-router-dom"
 import Navbar from "./Navbar";
 import Hero from "./components/LandingPage/Hero";
 import Stats from "./components/LandingPage/Stats";
@@ -6,8 +7,10 @@ import Marquee from "./components/LandingPage/Marquee";
 import Problems from "./components/LandingPage/Problems"
 import "./Footer"
 import Footer from "./Footer";
+import Auth from "./Auth"
 
-function App(){
+
+function LandingPage(){
     return(
         <>
         <Navbar />
@@ -20,6 +23,15 @@ function App(){
         </main>
         <Footer />
         </>
+    );
+}
+
+function App(){
+    return(
+        <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/auth" element={<Auth />} />
+        </Routes>
     );
 }
 export default App;

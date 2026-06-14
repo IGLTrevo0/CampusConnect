@@ -1,0 +1,105 @@
+*{
+    box-sizing: border-box;
+}
+.auth-container{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background-color: #f8f9fa;
+}
+
+.auth-card{
+    width: 100%;
+    max-width: 600px;
+    background-color: white;
+    padding: 2rem;
+    border: 2px solid #1a1a1a;
+    border-radius: 20px;
+    box-shadow: 8px 8px 0px #111;
+}
+
+.inputgroup{
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+}
+.inputgroup label{
+    font-size: 1.2rem;
+    margin-top: 10px;
+    font-weight: 600;
+}
+.inputgroup input,
+.inputgroup select{
+    padding: 0.9rem 1rem;
+
+    border: 1px solid #222222;
+    border-radius: 10px;
+
+    font-size: 1rem;
+}
+.input-row{
+    display: flex;
+    gap: 1rem;
+}
+
+.input-row, .inputgroup{
+    flex: 1;
+}
+.login-title,.signup-title{
+    margin-bottom: 0.3rem;
+}
+
+.login-sub-title,
+.signup-sub-title{
+    color: #666666;
+    margin-bottom: 1.5rem;
+}
+.loginbtn,.signupbtn{
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    box-shadow: 4px 4px 0px #1f1f1f;
+}
+.loginbtn{
+    background-color:#111111;
+    color: white;
+}
+.loginbtn:hover{
+    background-color:#191616;
+    color: white;
+}
+.signupbtn{
+    background-color: #f4c542;
+    color: #111111;
+}
+.signupbtn:hover{
+    background-color: #f8bb15;
+    color: #111111;
+}
+.auth-link{
+    color:#121315;
+    cursor: pointer;
+    font-weight: 600;
+}
+.auth-link:hover{
+    text-decoration: underline;
+}
+.auth-footer{
+    text-align: center;
+    margin-top: 10px;
+    font-size: 1.15rem;
+}
+@media (max-width:600px){
+    .input-row{
+        flex-direction: column;
+        gap: 0;
+    }
+}
