@@ -1,0 +1,61 @@
+.marquee{
+    width: 100%;
+    overflow: hidden;
+    background-color: #161616;
+    color: #f9f5f3;
+    padding: 20px 0px;
+}
+.marquee-track{
+    display: flex;
+    gap: 100px;
+    width: max-content;
+    animation: scroll 20s linear infinite;
+}
+.marquee-track:hover{
+    animation-play-state: paused;
+}
+
+@keyframes scroll{
+    from{
+        transform: translateX(0);
+    }
+    to{
+        transform: translateX(-50%);
+    }
+}
+
+.marquee-track span{
+    font-size: 1.8rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+@media(max-width:768px){
+    .marquee-track{
+        gap: 70px;
+        animation-duration: 18s;
+    }
+    .marquee-track span{
+        font-size: 1.5rem;
+    }
+}
+@media(max-width:600px){
+    .marquee{
+        padding: 15px 0;
+    }
+    .marquee-track{
+        gap: 50px;
+    }
+    .marquee-track span{
+        font-size: 1.3rem;
+    }
+}
+@media(max-width:480px){
+    .marquee-track{
+        gap: 40px;
+        animation-duration: 15s;
+    }
+    .marquee-track span{
+        font-size: 1.1rem;
+    }
+}

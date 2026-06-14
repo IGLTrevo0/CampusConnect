@@ -67,3 +67,47 @@
   color: aliceblue;
   background-color: #161616;
 }
+.mobile-menu-btn{
+  display: none;
+  cursor: pointer;
+  font-size: 1.8rem;
+  font-weight: bold;
+  padding: 5px 10px;
+}
+.mobile-dropdown{
+  position: absolute;
+  top: 100%;
+  padding: 10px 0;
+  min-width: 180px;
+  right: 10px;
+  margin-top: 10px;
+  background-color: rgb(255, 244, 217);
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1001;
+}
+.mobile-dropdown ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.mobile-dropdown li{
+  padding:10px 20px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.mobile-dropdown li:hover{
+  background-color: #ffe185;
+}
+
+@media(max-width:768px){
+  .navbar{
+    width: 90%;
+  }
+  .nav-lists{
+    display: none;
+  }
+  .mobile-menu-btn{
+    display: block;
+  }
+}

@@ -67,7 +67,7 @@
 .footer-social-links{
     display: flex;
     align-items: center;
-    gap: 40px;
+    gap: 35px;
 }
 .social-link{
     display: flex;
@@ -84,4 +84,47 @@
 
 .social-link img:hover{
     transform: scale(1.1);
+}
+
+@media (max-width: 1024px){
+    .footer{
+        justify-content: center;
+        gap: 40px;
+    }
+}
+@media (max-width:768px){
+    .footer{
+        justify-content: center;
+        text-align: center;
+    }
+    .footer-left,
+    .footer-right,
+    .footer-club,
+    .footer-social-links{
+        width: 45%;
+        justify-content: center;
+    }
+}
+@media(max-width:480px){
+    .footer{
+        flex-direction: column;
+        text-align: center;
+        padding:30px 20px;
+    }
+    .footer-title{
+        font-size: 1.5rem;
+    }
+    .footer-left,
+    .footer-right,
+    .footer-club,
+    .footer-social-links{
+        width: 100%;
+        justify-content: center;
+    }
+    .footer-left{
+        flex-direction: column;
+    }
+    .footer-social-links{
+        gap: 40px;
+    }
 }

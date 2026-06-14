@@ -26,7 +26,6 @@
     max-width: 800px;
     margin: 25px auto 0;
     text-align: center;
-    justify-content: center;
     font-size:  1.2rem;
     line-height: 1.7;
     color: #2f2f2f;
@@ -35,7 +34,40 @@
 .problem-cards{
     display: flex;
     gap: 45px;
-    flex: 1;
     padding: 25px;
 }
-
+@media(max-width:1024px){
+    .problem-cards{
+        gap: 25px;
+    }
+    .problem-heading h1{
+        font-size: 3rem;
+    }
+}
+@media(max-width:768px){
+    .problem-cards{
+        flex-direction: column;
+        gap: 25px;
+        padding: 0;
+    }
+    .problem-heading h1{
+        font-size: 2.7rem;
+    }
+    .problem-description{
+        font-size: 1.1rem;
+    }
+}
+@media(max-width: 480px){
+    .problem-heading h1{
+        font-size: 2rem;
+    }
+    .problem-cards{
+        padding: 20px;
+    }
+    .problem-card-title{
+        font-size: 1.5rem;
+    }
+    .problem-card-description{
+        font-size: 1rem;
+    }
+}
