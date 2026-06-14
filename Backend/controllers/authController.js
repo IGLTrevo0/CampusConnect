@@ -5,17 +5,21 @@ const jwt = require('jsonwebtoken');
 // @desc Register user
 exports.register = async (req, res) => {
   try {
-    const { name, email, password, role, skills, bio, year, branch } = req.body;
+    const { name, email, password, role } = req.body;
 
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ message: 'User already exists' });
 
+    // VIT email check
+    const vitEmailRegex = /^[\w.]+@(vitstudent\.ac\.in|vit\.ac\.in)$/;
+    if (!vitEmailRegex.test(email)) {
+      return res.status(400).json({ message: 'Only VIT email addresses are allowed' });
+    }
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    user = await User.create({
-      name, email, password: hashedPassword, role, skills, bio, year, branch
-    });
+    user = await User.create({ name, email, password: hashedPassword, role });
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
