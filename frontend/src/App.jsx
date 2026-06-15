@@ -1,39 +1,54 @@
 import "./App.css";
-import {Routes, Route} from "react-router-dom"
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar";
 import Hero from "./components/LandingPage/Hero";
 import Stats from "./components/LandingPage/Stats";
 import Marquee from "./components/LandingPage/Marquee";
-import Problems from "./components/LandingPage/Problems"
-import "./Footer"
+import Problems from "./components/LandingPage/Problems";
+import "./Footer";
 import Footer from "./Footer";
-import Auth from "./Auth"
+import Auth from "./Auth";
 import SearchPage from "./components/Search/SearchPage";
 
-
-function LandingPage(){
-    return(
-        <>
-        <Navbar />
-        <main className="content">
+function LandingPage() {
+  return (
+    <>
+      <Navbar />
+      <main className="content">
         <Hero />
         <hr className="section-divider" />
         <Stats />
         <Marquee />
         <Problems />
-        </main>
-        <Footer />
-        </>
-    );
+      </main>
+      <Footer />
+    </>
+  );
 }
 
-function App(){
-    return(
-        <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/search" element={<SearchPage />}/>
-        </Routes>
-    );
+function AppLayout({ children }) {
+  return (
+    <>
+      <Navbar />
+      {children}
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/auth" element={<Auth />} />
+      <Route
+        path="/search"
+        element={
+          <AppLayout>
+            <SearchPage />
+          </AppLayout>
+        }
+      />
+    </Routes>
+  );
 }
 export default App;
