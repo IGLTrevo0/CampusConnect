@@ -9,6 +9,7 @@ import "./Footer";
 import Footer from "./Footer";
 import Auth from "./Auth";
 import SearchPage from "./components/Search/SearchPage";
+import Profile from "./components/Profile/Profile";
 
 function LandingPage() {
   const isLoggedIn = !!localStorage.getItem("token");
@@ -50,6 +51,14 @@ function App() {
         element={
           <AppLayout>
             <SearchPage />
+          </AppLayout>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <AppLayout>
+            <Profile />
           </AppLayout>
         }
       />

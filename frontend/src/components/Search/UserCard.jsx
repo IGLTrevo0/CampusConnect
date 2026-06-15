@@ -1,4 +1,6 @@
+import { useNavigate } from "react-router-dom";
 function UserCard({ user }) {
+  const navigate=useNavigate();
   return (
     <div className="user-card">
       <div
@@ -26,7 +28,7 @@ function UserCard({ user }) {
       </div>
       <div className="card-actions">
         <button className="connect-btn">Connect</button>
-        <button className="profile-btn-card">View Profile</button>
+        <button className="profile-btn-card" onClick={()=>navigate("/profile")}>View Profile</button>
       </div>
     </div>
   );
