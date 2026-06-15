@@ -5,12 +5,12 @@ exports.sendRequest = async (req, res) => {
   try {
     const { id } = req.params;
 
-    if (id === req.user.id) {
+    if (id === req.user._id) {
       return res.status(400).json({ message: 'Cannot send request to yourself' });
     }
 
     const existing = await Connection.findOne({
-      sender: req.user.id,
+      sender: req.user._id,
       receiver: id
     });
 
@@ -19,7 +19,7 @@ exports.sendRequest = async (req, res) => {
     }
 
     const connection = await Connection.create({
-      sender: req.user.id,
+      sender: req.user._id,
       receiver: id
     });
 
@@ -33,7 +33,7 @@ exports.sendRequest = async (req, res) => {
 exports.acceptRequest = async (req, res) => {
   try {
     const connection = await Connection.findOneAndUpdate(
-      { _id: req.params.id, receiver: req.user.id },
+      { _id: req.params.id, receiver: req.user._id },
       { status: 'accepted' },
       { new: true }
     );
@@ -50,7 +50,7 @@ exports.acceptRequest = async (req, res) => {
 exports.rejectRequest = async (req, res) => {
   try {
     const connection = await Connection.findOneAndUpdate(
-      { _id: req.params.id, receiver: req.user.id },
+      { _id: req.params.id, receiver: req.user._id },
       { status: 'rejected' },
       { new: true }
     );
@@ -67,7 +67,7 @@ exports.rejectRequest = async (req, res) => {
 exports.getConnections = async (req, res) => {
   try {
     const connections = await Connection.find({
-      $or: [{ sender: req.user.id }, { receiver: req.user.id }],
+      $or: [{ sender: req.user._id }, { receiver: req.user._id }],
       status: 'accepted'
     }).populate('sender receiver', 'name email role branch year skills');
 
@@ -81,7 +81,7 @@ exports.getConnections = async (req, res) => {
 exports.getPendingRequests = async (req, res) => {
   try {
     const requests = await Connection.find({
-      receiver: req.user.id,
+      receiver: req.user._id,
       status: 'pending'
     }).populate('sender', 'name email role branch year skills');
 

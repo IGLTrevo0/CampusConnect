@@ -17,9 +17,9 @@ exports.updateProfile = async (req, res) => {
     const { bio, github, linkedin, portfolio, interests, year, branch, skills, achievements, mentorAvailability } = req.body;
 
     const updated = await User.findByIdAndUpdate(
-      req.user.id,
+      req.user._id,
       { bio, github, linkedin, portfolio, interests, year, branch, skills, achievements, mentorAvailability },
-      { returnDocument: 'after', runValidators: true }
+      { new: true, runValidators: true }
     ).select('-password');
 
     res.json(updated);
