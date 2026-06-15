@@ -10,6 +10,7 @@ app.use(express.json());
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/connections', require('./routes/connections'));
+app.use('/api/posts', require('./routes/posts'));
 
 app.get('/', (req, res) => {
   res.send('CampusConnect API Running');
