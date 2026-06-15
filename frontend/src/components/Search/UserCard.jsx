@@ -6,8 +6,8 @@ function UserCard({ user }) {
         style={{
           background:
             user.role === "mentor"
-              ? "linear-gradient(135deg, #ffb347, #ffcc33"
-              : "linear-gradient(135deg, #4facfe, #00f2fe",
+              ? "linear-gradient(135deg, #ffb347, #ffcc33)"
+              : "linear-gradient(135deg, #4facfe, #00f2fe)",
         }}
       ></div>
       <div className="role-badge">{user.role}</div>
@@ -24,7 +24,10 @@ function UserCard({ user }) {
           ))}
         </div>
       </div>
-      <button className="connect-btn">Connect</button>
+      <div className="card-actions">
+        <button className="connect-btn">Connect</button>
+        <button className="profile-btn-card">View Profile</button>
+      </div>
     </div>
   );
 }

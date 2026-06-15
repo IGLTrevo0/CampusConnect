@@ -2,6 +2,8 @@ import "./Search.css";
 import UserCard from "./UserCard";
 import { useEffect, useState } from "react";
 import { getUser } from "../../services/userService";
+import DiscoveryGrid from "./DiscoveryGrid";
+
 // const mockUsers = [
 //   {
 //     _id: "1",
@@ -82,6 +84,7 @@ function SearchPage() {
   // const [users, setUsers] = useState(mockUsers);
   const [selectedRole, setSelectedRole] = useState("All");
   const [selectedDomain, setSelectedDomain] = useState("");
+  const [visibleCount, setVisibleCount] = useState(3);
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -93,8 +96,7 @@ function SearchPage() {
       }
     };
     fetchUsers();
-  },
-  []);
+  }, []);
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -112,7 +114,11 @@ function SearchPage() {
 
     return matchesSearch && matchesRole && matchesDomain;
   });
+  const displayedUsers = filteredUsers.slice(0, visibleCount);
 
+  useEffect(() => {
+    setVisibleCount(3);
+  }, [searchTerm, selectedRole, selectedDomain]);
   return (
     <div className="search-page">
       <section className="search-hero">
@@ -220,18 +226,12 @@ function SearchPage() {
           </div>
         </div>
 
-        <div className="discovery-content">
-          <h2>Total users found ({filteredUsers.length})</h2>
-          <div className="cards-grid">
-            {filteredUsers.length > 0 ? (
-              filteredUsers.map((user) => (
-                <UserCard key={user._id} user={user} />
-              ))
-            ) : (
-              <p>No users found matching your search.</p>
-            )}
-          </div>
-        </div>
+        <DiscoveryGrid
+          filteredUsers={displayedUsers}
+          totalUsers={filteredUsers.length}
+          onLoadMore={() => setVisibleCount((prev) => prev + 6)}
+          hasMore={visibleCount < filteredUsers.length}
+        />
       </section>
     </div>
   );

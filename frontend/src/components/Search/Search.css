@@ -86,19 +86,59 @@
     background-color: #f4c542;
     font-weight: 600;
 }
+.discovery-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #111111;
+    max-width: 1150px;
+}
+.discovery-header h2{
+    font-size: 2rem;
+    font-weight: 700;
+}
 
 .discovery-content{
     flex: 1;
 }
+.results-count{
+    padding: 6px 16px;
+    border: 2px solid #111111;
+    border-radius: 20px;
+    background-color: white;
+    font-weight: 600;
+}
+.load-more-container{
+    display: flex;
+    justify-content: center;
+    margin-top: 35px;
+}
+
+.load-more-btn{
+    padding: 14px 32px;
+    border: 2px solid #111111;
+    border-radius: 14px;
+    background-color: white;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 2px 2px 1px #000000;
+}
+.load-more-btn:hover{
+    transform: translate(-1px,-1px);
+}
 
 .cards-grid{
     display: flex;
-    gap: 25px;
+    gap: 48px;
     flex-wrap: wrap;
 }
 .user-card{
-    width: 300px;
+    width: 350px;
     min-height: 420px;
+    display: flex;
+    flex-direction: column;
     position: relative;
     border: 2px solid #111111;
     box-shadow: 6px 6px 0px #000000;
@@ -118,7 +158,7 @@
 .card-avatar{
     width: 80px;
     height: 80px;
-    border-radius: 50%;
+    border-radius: 5px;
     background-color: #cccccc;
     margin-left: 20px;
     margin-top: -40px;
@@ -127,6 +167,7 @@
 }
 .card-content{
     padding: 15px;
+    flex: 1;
 }
 
 .skill-tags{
@@ -142,15 +183,29 @@
     font-size:0.85rem;
 }
 
-.connect-btn{
+.card-actions{
+    display: flex;
+    gap: 10px;
     width: 90%;
     margin: 15px auto;
-    display: block;
-    padding: 14px;
+}
+.connect-btn{
+    flex: 1;
+    padding: 12px;
     border: none;
     border-radius: 10px;
     background: #111111;
     color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+.profile-btn-card{
+    flex: 1;
+    padding: 12px;
+    border: 2px solid black;
+    border-radius: 10px;
+    background: white;
+    color: #111111;
     font-weight: 600;
     cursor: pointer;
 }

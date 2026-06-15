@@ -11,6 +11,10 @@ import Auth from "./Auth";
 import SearchPage from "./components/Search/SearchPage";
 
 function LandingPage() {
+  const isLoggedIn = !!localStorage.getItem("token");
+  if (isLoggedIn) {
+    return <Navigate to="/search" />;
+  }
   return (
     <>
       <Navbar />
@@ -31,6 +35,7 @@ function AppLayout({ children }) {
     <>
       <Navbar />
       {children}
+      <Footer />
     </>
   );
 }
