@@ -157,4 +157,25 @@ const updateApplicationStatus = async (req, res) => {
   }
 };
 
-module.exports = { createPost, getPosts, getPostById, deletePost, applyToPost, getApplications, updateApplicationStatus };
+// @desc    Update post status
+// @route   PUT /api/posts/:id/status
+// @access  Protected
+const updatePostStatus = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    if (!post) return res.status(404).json({ message: 'Post not found' });
+
+    if (post.creator.toString() !== req.user._id.toString())
+      return res.status(403).json({ message: 'Not authorized' });
+
+    post.status = req.body.status;
+    await post.save();
+
+    res.json(post);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { createPost, getPosts, getPostById, deletePost, applyToPost, getApplications, updateApplicationStatus, updatePostStatus };

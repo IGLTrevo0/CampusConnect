@@ -9,6 +9,7 @@ const {
   applyToPost,
   getApplications,
   updateApplicationStatus,
+  updatePostStatus,
 } = require('../controllers/postController');
 
 router.use(protect);
@@ -18,5 +19,6 @@ router.route('/:id').get(getPostById).delete(deletePost);
 router.route('/:id/apply').post(applyToPost);
 router.route('/:id/applications').get(getApplications);
 router.route('/:id/applications/:appId').put(updateApplicationStatus);
+router.route('/:id/status').put(updatePostStatus);
 
 module.exports = router;
