@@ -8,6 +8,7 @@ import Problems from "./components/LandingPage/Problems"
 import "./Footer"
 import Footer from "./Footer";
 import Auth from "./Auth"
+import SearchPage from "./components/Search/SearchPage";
 
 
 function LandingPage(){
@@ -31,6 +32,7 @@ function App(){
         <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/search" element={<SearchPage />}/>
         </Routes>
     );
 }

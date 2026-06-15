@@ -1,0 +1,135 @@
+.search-page{
+    padding: 2rem;
+}
+.search-hero{
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.search-hero h1{
+    font-size: 3rem;
+}
+
+.search-hero span{
+    background-color: #f4c543;
+    padding: 4px 8px;
+}
+.search-hero p{
+    max-width: 700px;
+    margin: 15px auto;
+}
+.search-box{
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.search-box input{
+    width: 600px;
+    padding: 1rem;
+}
+
+.search-box button{
+    padding: 15px 30px;
+}
+
+.discovery-section{
+    display: flex;
+    gap: 30px;
+}
+.sidebar{
+    width: 250px;
+    border: 2px solid black;
+    padding: 15px;
+}
+.sidebar label{
+    display: block;
+    margin: 12px 0;
+}
+
+.discovery-content{
+    flex: 1;
+}
+
+.cards-grid{
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+.user-card{
+    width: 300px;
+    min-height: 420px;
+    position: relative;
+    border: 2px solid #111111;
+    box-shadow: 6px 6px 0px #000000;
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: white;
+    transition: 0.2s ease;
+}
+.user-card:hover{
+    transform: translate(-2px,-2px);
+}
+.card-banner{
+    height: 120px;
+    background-color: #f4c542;
+}
+
+.card-avatar{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #cccccc;
+    margin-left: 20px;
+    margin-top: -40px;
+
+    border:4px solid whitesmoke;
+}
+.card-content{
+    padding: 15px;
+}
+
+.skill-tags{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+.skill-tags span{
+    border:1px solid #111;
+    border-radius:90px;
+    padding:5px 14px;
+    font-size:0.85rem;
+}
+
+.connect-btn{
+    width: 90%;
+    margin: 15px auto;
+    display: block;
+    padding: 14px;
+}
+
+.domain-tags{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+.domain-tags button{
+    border: 1px solid#1f1f1f;
+    border-radius: 90px;
+    padding: 6px 12px;
+    background-color: whitesmoke;
+    cursor: pointer;
+}
+.role-badge{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: white;
+    border: 1px solid #111111;
+    padding: 4px 10px;
+    font-size: 15px;
+    font-weight: 600;
+}
