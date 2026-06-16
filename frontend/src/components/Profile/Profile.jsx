@@ -48,15 +48,15 @@ export default function Profile() {
             <h1 className="profile-name">{user.name}</h1>
 
             <p className="profile-subtitle">
-              🎓 {user.title} | {user.university}
+              {user.title} | {user.university}
             </p>
           </div>
         </div>
 
         <div className="profile-actions">
-          <button className="profile-message-btn">📩 Direct Message</button>
+          <button className="profile-message-btn">Direct Message</button>
 
-          <button className="profile-mentor-btn">🏆 Request Mentorship</button>
+          <button className="profile-mentor-btn">Request Mentorship</button>
         </div>
       </div>
 
@@ -76,17 +76,17 @@ export default function Profile() {
             <hr />
 
             <div className="profile-stat-row">
-              <span>⭐ Mentorships Given</span>
+              <span>Mentorships Given</span>
               <strong>{user.reputation.mentorships}</strong>
             </div>
 
             <div className="profile-stat-row">
-              <span>👥 Teams Led</span>
+              <span>Teams Led</span>
               <strong>{user.reputation.teamsLed}</strong>
             </div>
 
             <div className="profile-stat-row">
-              <span>🏆 Hackathons Won</span>
+              <span>Hackathons Won</span>
               <strong>{user.reputation.hackathons}</strong>
             </div>
           </div>

@@ -48,9 +48,14 @@ function Navbar() {
           )}
           <div className="buttons">
             {!isLoggedIn ? (
-              <button className="get-started" onClick={() => navigate("/auth")}>
-                Login
-              </button>
+              <>
+                <button className="login" onClick={() => navigate("/auth", { state: { isLogin: true } })}>
+                  Login
+                </button>
+                <button className="get-started" onClick={() => navigate("/auth", { state: { isLogin: false } })}>
+                  Create Account
+                </button>
+              </>
             ) : (
               <div className="profile-dropdown-wrapper">
                 <button

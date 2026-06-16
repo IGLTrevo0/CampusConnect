@@ -30,8 +30,8 @@ function SignUpForm({ setIsLogin }) {
       navigate("/search");
     } catch (error) {
       console.log(error.response?.data);
-      console.error(error);
-      alert(error.response?.data?.message || error.message || "Registration failed");    }
+      alert(error.response?.data?.message || error.message || "Registration failed");
+    }
   };
   return (
     <form onSubmit={handleSubmit}>

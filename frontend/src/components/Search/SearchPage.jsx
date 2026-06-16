@@ -131,7 +131,7 @@ function SearchPage() {
         </p>
 
         <div className="search-box">
-          <span className="search-icon">🔍</span>
+          <span className="search-icon"></span>
           <input
             type="text"
             value={searchTerm}

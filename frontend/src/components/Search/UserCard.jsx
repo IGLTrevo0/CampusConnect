@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 function UserCard({ user }) {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   return (
     <div className="user-card">
       <div
@@ -21,8 +21,8 @@ function UserCard({ user }) {
         </p>
 
         <div className="skill-tags">
-          {user.skills?.map((skills) => (
-            <span key={skills}>{skills}</span>
+          {user.skills?.map((skill) => (
+            <span key={skill}>{skill}</span>
           ))}
         </div>
       </div>

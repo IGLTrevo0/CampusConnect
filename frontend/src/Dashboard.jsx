@@ -293,9 +293,9 @@ function Dashboard() {
   };
 
   const tabs = [
-    { id: "applications", label: "My Applications", icon: "📋" },
-    { id: "mentorRequests", label: "Mentor Requests", icon: "🤝" },
-    { id: "myPosts", label: "My Posts", icon: "📌" },
+    { id: "applications", label: "My Applications", icon: "" },
+    { id: "mentorRequests", label: "Mentor Requests", icon: "" },
+    { id: "myPosts", label: "My Posts", icon: "" },
   ];
 
   return (
@@ -325,7 +325,7 @@ function Dashboard() {
         {activeTab === "applications" && (
           <section className="dashboard-section">
             <h2 className="dashboard-section-title">
-              <span>📋</span> My Applications
+              My Applications
             </h2>
             {loading.applications ? (
               <LoadingSpinner />
@@ -367,7 +367,7 @@ function Dashboard() {
         {activeTab === "mentorRequests" && (
           <section className="dashboard-section">
             <h2 className="dashboard-section-title">
-              <span>🤝</span> My Mentor Requests
+              My Mentor Requests
             </h2>
             {loading.mentorRequests ? (
               <LoadingSpinner />
@@ -516,7 +516,7 @@ function Dashboard() {
         {activeTab === "myPosts" && (
           <section className="dashboard-section">
             <h2 className="dashboard-section-title">
-              <span>📌</span> My Posts
+              My Posts
             </h2>
             {loading.myPosts ? (
               <LoadingSpinner />

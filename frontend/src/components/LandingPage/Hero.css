@@ -120,6 +120,11 @@
     border: 2px solid black;
     border-radius: 90px;
     padding: 7px 15px;
+    gap: 8px;
+}
+.demo-skills li img{
+    width: 20px;
+    height: 20px;
 }
 @media(max-width:1440px){
     .heading h1{

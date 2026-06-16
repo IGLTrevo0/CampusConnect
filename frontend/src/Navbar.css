@@ -72,6 +72,17 @@
   color: aliceblue;
   background-color: #161616;
 }
+.login {
+  border: none;
+  background-color: transparent;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  transition: color 0.2s ease;
+}
+.login:hover {
+  color: #2563eb;
+}
 .profile-dropdown-wrapper{
   position: relative;
 } 
@@ -90,7 +101,7 @@
 }
 .profile-dropdown{
     position: absolute;
-    top: calc(100%+10px);
+    top: calc(100% + 10px);
     right: 0;
     display: flex;
     flex-direction: column;

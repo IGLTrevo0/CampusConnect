@@ -128,7 +128,7 @@ function PostPage() {
       {/* ── Section 1: Create Post ── */}
       <section className="postpage-form-section">
         <h2 className="postpage-section-title">
-          <span>✍️</span> Create a Post
+          Create a Post
         </h2>
         <form className="postpage-form" onSubmit={handleSubmit}>
           <div className="postpage-form-grid">
@@ -279,7 +279,7 @@ function PostPage() {
       {/* ── Section 2: View Posts ── */}
       <section>
         <h2 className="postpage-section-title">
-          <span>📋</span> All Posts
+          All Posts
         </h2>
 
         {loadingPosts ? (
@@ -349,7 +349,7 @@ function PostPage() {
                 <p className="postpage-card-detail">
                   <strong>Posted:</strong> {formatDate(post.createdAt)}
                 </p>
-                {post.skillsNeeded && post.skillsNeeded.length > 0 && (
+                {post.skillsNeeded && Array.isArray(post.skillsNeeded) && post.skillsNeeded.length > 0 && (
                   <div className="postpage-card-footer">
                     <div className="postpage-skill-tags">
                       {post.skillsNeeded.map((skill) => (

@@ -4,7 +4,7 @@ function DiscoveryGrid({ filteredUsers, totalUsers, onLoadMore, hasMore }) {
   return (
     <div className="discovery-content">
       <div className="discovery-header">
-        <h2>👥 Discovery</h2>
+        <h2>Discovery</h2>
 
         <div className="results-count">{totalUsers} Results</div>
       </div>
