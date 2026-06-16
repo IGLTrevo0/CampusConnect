@@ -28,7 +28,7 @@ function UserCard({ user }) {
       </div>
       <div className="card-actions">
         <button className="connect-btn">Connect</button>
-        <button className="profile-btn-card" onClick={()=>navigate("/profile")}>View Profile</button>
+        <button className="profile-btn-card" onClick={()=>navigate(`/profile/${user._id}`)}>View Profile</button>
       </div>
     </div>
   );

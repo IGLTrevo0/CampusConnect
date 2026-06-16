@@ -11,11 +11,12 @@
   padding-bottom: 0;
 }
 
-.profile-banner {
+.profile-banner-gradient {
   width: 100%;
   height: 220px;
-  object-fit: cover;
+  background: linear-gradient(135deg, #2b2b2b 0%, #4a90e2 100%);
   border: 2px solid #111;
+  border-radius: 6px;
 }
 
 .profile-section {
@@ -41,6 +42,42 @@
   border: 2px solid #111;
   border-radius: 6px;
   background: white;
+}
+
+.profile-avatar-placeholder {
+  width: 125px;
+  height: 125px;
+  border: 2px solid #111;
+  border-radius: 6px;
+  background: #f4c542;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
+  font-weight: bold;
+  color: #111;
+}
+
+.profile-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.profile-links a {
+  color: #4a90e2;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.profile-links a:hover {
+  text-decoration: underline;
+}
+
+.profile-projects-section {
+  margin-bottom: 40px;
 }
 
 .profile-name {

@@ -11,7 +11,8 @@ import Auth from "./Auth";
 import SearchPage from "./components/Search/SearchPage";
 import Profile from "./components/Profile/Profile";
 import Dashboard from "./components/Dashboard/Dashboard";
-
+import VerifyOTP from "./components/Auth/VerifyOTP";
+import CompleteProfile from "./components/Profile/CompleteProfile";
 function LandingPage() {
   const isLoggedIn = !!localStorage.getItem("token");
   if (isLoggedIn) {
@@ -60,6 +61,23 @@ function App() {
         element={
           <AppLayout>
             <Profile />
+          </AppLayout>
+        }
+      />
+      <Route
+        path="/profile/:id"
+        element={
+          <AppLayout>
+            <Profile />
+          </AppLayout>
+        }
+      />
+      <Route path="/verify-otp" element={<VerifyOTP />} />
+      <Route
+        path="/complete-profile"
+        element={
+          <AppLayout>
+            <CompleteProfile />
           </AppLayout>
         }
       />

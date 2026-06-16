@@ -1,0 +1,97 @@
+.complete-profile-container {
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 140px);
+  padding: 2rem;
+  background-color: #f9f9f9;
+}
+
+.complete-profile-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 600px;
+}
+
+.complete-profile-card h1 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.complete-profile-card p {
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.complete-profile-form .form-group {
+  margin-bottom: 1.2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.complete-profile-form .form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.complete-profile-form .form-row .form-group {
+  flex: 1;
+}
+
+.complete-profile-form label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #444;
+}
+
+.complete-profile-form input,
+.complete-profile-form textarea,
+.complete-profile-form select {
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.complete-profile-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.complete-profile-form input:focus,
+.complete-profile-form textarea:focus,
+.complete-profile-form select:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.complete-profile-form .submit-btn {
+  background-color: #2b2b2b;
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 1rem;
+  transition: background-color 0.2s;
+}
+
+.complete-profile-form .submit-btn:hover {
+  background-color: #000;
+}
+
+.complete-profile-form .submit-btn:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}

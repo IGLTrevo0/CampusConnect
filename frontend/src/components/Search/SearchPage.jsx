@@ -145,7 +145,7 @@ function SearchPage() {
         <div className="sidebar">
           <h3>Roles</h3>
 
-          <label>
+          {/* <label>
             <input
               type="radio"
               name="role"
@@ -172,7 +172,30 @@ function SearchPage() {
               onChange={() => setSelectedRole("mentor")}
             />
             Mentors
-          </label>
+          </label> */}
+
+          <div className="role-filters">
+            <button
+              className={selectedRole === "All" ? "active-role" : ""}
+              onClick={() => setSelectedRole("All")}
+            >
+              All
+            </button>
+
+            <button
+              className={selectedRole === "student" ? "active-role" : ""}
+              onClick={() => setSelectedRole("student")}
+            >
+              Students
+            </button>
+
+            <button
+              className={selectedRole === "mentor" ? "active-role" : ""}
+              onClick={() => setSelectedRole("mentor")}
+            >
+              Mentors
+            </button>
+          </div>
 
           <h3>Domains</h3>
           <div className="domain-tags">

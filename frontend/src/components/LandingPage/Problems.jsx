@@ -12,7 +12,7 @@ function Problems() {
         <h1 className="highlight">ONE NETWORK.</h1>
       </div>
       <div className="problem-description">
-        College is hard enough. Finding the right people to build with shouldn't be.CampusConnect helps students discover mentors, collaborators, and hackathon teammates based on skills and experience.
+        College is hard enough. Finding the right people to build with shouldn't be hard too. CampusConnect helps students discover mentors, collaborators, and hackathon teammates based on skills and experience.
       </div>
       <div className="problem-cards">
         <ProblemCards title="Mentorship" description="Connect with seniors who have experience in your area of interest. Search by domain, technology, or skill and reach out directly for guidance and mentorship." icon={mentorIcon}/>

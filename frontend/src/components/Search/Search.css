@@ -83,7 +83,7 @@
     margin: 12px 0;
 }
 .active-domain{
-    background-color: #f4c542;
+    background-color: #f4c542 !important;
     font-weight: 600;
 }
 .discovery-header{
@@ -232,4 +232,28 @@
     padding: 4px 10px;
     font-size: 15px;
     font-weight: 600;
+}.role-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.role-filters button {
+  border: 2px solid #111111;
+  border-radius: 12px;
+  padding: 10px;
+  background: white;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.role-filters button:hover {
+  transform: translateY(-1px);
+}
+
+.active-role {
+  background: #f4c542 !important;
+  box-shadow: 2px 2px 0 #111111;
 }
