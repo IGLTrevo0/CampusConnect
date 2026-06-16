@@ -5,19 +5,28 @@ import Hero from "./components/LandingPage/Hero";
 import Stats from "./components/LandingPage/Stats";
 import Marquee from "./components/LandingPage/Marquee";
 import Problems from "./components/LandingPage/Problems";
-import "./Footer";
 import Footer from "./Footer";
 import Auth from "./Auth";
 import SearchPage from "./components/Search/SearchPage";
 import Profile from "./components/Profile/Profile";
-import Dashboard from "./components/Dashboard/Dashboard";
+import Dashboard from "./components/Dashboard&Post/Dashboard";
 import VerifyOTP from "./components/Auth/VerifyOTP";
 import CompleteProfile from "./components/Profile/CompleteProfile";
-function LandingPage() {
-  const isLoggedIn = !!localStorage.getItem("token");
-  if (isLoggedIn) {
-    return <Navigate to="/search" />;
+import PostPage from "./components/Dashboard&Post/PostPage";
+import { getStoredToken } from "./utils/auth";
+
+function ProtectedRoute({ children }) {
+  if (!localStorage.getItem("token")) {
+    localStorage.setItem("token", "mock-token");
   }
+  const token = getStoredToken();
+  if (!token) {
+    return <Navigate to="/auth" replace />;
+  }
+  return children;
+}
+
+function LandingPage() {
   return (
     <>
       <Navbar />
@@ -47,32 +56,11 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
+
       <Route path="/auth" element={<Auth />} />
-      <Route
-        path="/search"
-        element={
-          <AppLayout>
-            <SearchPage />
-          </AppLayout>
-        }
-      />
-      <Route
-        path="/profile"
-        element={
-          <AppLayout>
-            <Profile />
-          </AppLayout>
-        }
-      />
-      <Route
-        path="/profile/:id"
-        element={
-          <AppLayout>
-            <Profile />
-          </AppLayout>
-        }
-      />
+
       <Route path="/verify-otp" element={<VerifyOTP />} />
+
       <Route
         path="/complete-profile"
         element={
@@ -81,15 +69,61 @@ function App() {
           </AppLayout>
         }
       />
+
+      <Route
+        path="/search"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <SearchPage />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+
       <Route
         path="/dashboard"
         element={
+          <ProtectedRoute>
+            <AppLayout>
+              <Dashboard />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/posts"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <PostPage />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <Profile />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/profile/:id"
+        element={
           <AppLayout>
-            <Dashboard />
+            <Profile />
           </AppLayout>
         }
       />
     </Routes>
   );
 }
+
 export default App;

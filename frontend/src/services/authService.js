@@ -1,4 +1,6 @@
 import axios from "axios";
+import { getStoredToken } from "../utils/auth";
+
 const API_URL = "http://localhost:5000/api/auth";
 
 export const register = async (userData) => {
@@ -13,7 +15,11 @@ export const login = async (userData) => {
   return response.data;
 };
 
-export const getme = async (token) => {
+export const getme = async () => {
+  const token = getStoredToken();
+  if (!token) {
+    throw new Error("Not authenticated");
+  }
   const response = await axios.get(`${API_URL}/me`, {
     headers: {
       Authorization: `Bearer ${token}`,

@@ -36,7 +36,7 @@
         flex-wrap: wrap;
     }
     .stat-card{
-        flex: 1 1 calc(50%-10px);
+        flex: 1 1 calc(50% - 10px);
         margin-top: 0;
     }
     .stat-card:last-child{

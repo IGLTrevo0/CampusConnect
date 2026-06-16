@@ -14,11 +14,11 @@ exports.getUserById = async (req, res) => {
 // PUT /api/users/profile — profile setup/update (protected)
 exports.updateProfile = async (req, res) => {
   try {
-    const { bio, github, linkedin, portfolio, interests, year, branch, skills, achievements, mentorAvailability } = req.body;
+    const { bio, github, linkedin, portfolio, interests, year, branch, skills, achievements, mentorAvailability, profilePicture } = req.body;
 
     const updated = await User.findByIdAndUpdate(
       req.user._id,
-      { bio, github, linkedin, portfolio, interests, year, branch, skills, achievements, mentorAvailability },
+      { bio, github, linkedin, portfolio, interests, year, branch, skills, achievements, mentorAvailability, profilePicture },
       { new: true, runValidators: true }
     ).select('-password');
 

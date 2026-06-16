@@ -18,6 +18,7 @@ const UserSchema = new mongoose.Schema({
   linkedin: { type: String },
   portfolio: { type: String },
   interests: [String],
+  profilePicture: { type: String, default: '' },
 
   // Student fields
   year: { type: Number },
@@ -31,6 +32,11 @@ const UserSchema = new mongoose.Schema({
     enum: ['open', 'limited', 'unavailable'],
     default: 'open'
   },
+
+  // Verification
+  isVerified: { type: Boolean, default: false },
+  otp: { type: String },
+  otpExpiry: { type: Date },
 
 }, { timestamps: true });
 
