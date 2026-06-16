@@ -9,13 +9,22 @@ import "./Footer";
 import Footer from "./Footer";
 import Auth from "./Auth";
 import SearchPage from "./components/Search/SearchPage";
+<<<<<<< HEAD
 import Profile from "./components/Profile/Profile";
+=======
+import Dashboard from "./Dashboard";
+import { getStoredToken } from "./utils/auth";
+
+function ProtectedRoute({ children }) {
+  const token = getStoredToken();
+  if (!token) {
+    return <Navigate to="/auth" replace />;
+  }
+  return children;
+}
+>>>>>>> 2be504c (Updated Dashboard and fixed Navbar)
 
 function LandingPage() {
-  const isLoggedIn = !!localStorage.getItem("token");
-  if (isLoggedIn) {
-    return <Navigate to="/search" />;
-  }
   return (
     <>
       <Navbar />
@@ -28,6 +37,22 @@ function LandingPage() {
       </main>
       <Footer />
     </>
+  );
+}
+
+function ProfilePage() {
+  return (
+    <div style={{ paddingTop: "110px", padding: "110px 30px" }}>
+      <h1>Profile</h1>
+    </div>
+  );
+}
+
+function PostsPage() {
+  return (
+    <div style={{ paddingTop: "110px", padding: "110px 30px" }}>
+      <h1>Posts</h1>
+    </div>
   );
 }
 
@@ -49,9 +74,41 @@ function App() {
       <Route
         path="/search"
         element={
-          <AppLayout>
-            <SearchPage />
-          </AppLayout>
+          <ProtectedRoute>
+            <AppLayout>
+              <SearchPage />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <Dashboard />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <ProfilePage />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/posts"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <PostsPage />
+            </AppLayout>
+          </ProtectedRoute>
         }
       />
       <Route

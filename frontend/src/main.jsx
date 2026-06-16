@@ -1,8 +1,31 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+import axios from "axios";
+import { getStoredToken, clearAuth } from "./utils/auth";
 import "./index.css";
 import App from "./App.jsx";
+
+axios.interceptors.request.use((config) => {
+  const token = getStoredToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      clearAuth();
+      if (window.location.pathname !== "/auth") {
+        window.location.assign("/auth");
+      }
+    }
+    return Promise.reject(error);
+  },
+);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

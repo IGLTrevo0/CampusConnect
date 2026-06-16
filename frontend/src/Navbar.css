@@ -41,11 +41,16 @@
   font-weight: bold;
   cursor: pointer;
 }
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding-right: 20px;
+}
 .nav-lists ul {
   display: flex;
   list-style: none;
   gap: 30px;
-  margin-right: 20px;
 }
 .nav-lists li {
   cursor: pointer;
@@ -56,7 +61,6 @@
 .buttons {
   display: flex;
   gap: 15px;
-  padding-right: 20px;
 }
 .login,
 .get-started {
@@ -75,8 +79,14 @@
   padding: 10px 20px;
   cursor: pointer;
   border-radius: 10px;
-  border:1px solid #dddddd;
-  background-color: whitesmoke;
+  border: none;
+  background-color: transparent;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+}
+.profile-btn:hover{
+  color: #2563eb;
 }
 .profile-dropdown{
     position: absolute;

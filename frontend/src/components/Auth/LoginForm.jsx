@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { login } from "../../services/authService";
 import { useNavigate } from "react-router-dom";
+import { setAuthSession } from "../../utils/auth";
 
 function LoginForm({ setIsLogin }) {
   const navigate = useNavigate();
@@ -23,14 +24,12 @@ function LoginForm({ setIsLogin }) {
     try {
       const data = await login(formData);
 
-      console.log("Logged in:", data);
-
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-      navigate("/search")
+      setAuthSession(data);
+      navigate("/search");
     } catch (error) {
       console.log(error.response?.data);
       console.error(error);
+      alert(error.response?.data?.message || error.message || "Login failed");
     }
   };
   return (

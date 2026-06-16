@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { register } from "../../services/authService";
-
+import { useNavigate } from "react-router-dom";
+import { setAuthSession } from "../../utils/auth";
 function SignUpForm({ setIsLogin }) {
+  const navigate = useNavigate();
   const currentYear = new Date().getFullYear();
   const [formData, setFormData] = useState({
     name: "",
@@ -24,12 +26,12 @@ function SignUpForm({ setIsLogin }) {
     try {
       const data = await register(formData);
 
-      console.log("Registered:", data);
-      localStorage.setItem("token", data.token);
+      setAuthSession(data);
+      navigate("/search");
     } catch (error) {
       console.log(error.response?.data);
       console.error(error);
-    }
+      alert(error.response?.data?.message || error.message || "Registration failed");    }
   };
   return (
     <form onSubmit={handleSubmit}>
