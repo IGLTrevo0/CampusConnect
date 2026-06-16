@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import Hero from "./components/LandingPage/Hero";
 import Stats from "./components/LandingPage/Stats";
@@ -10,6 +10,7 @@ import Footer from "./Footer";
 import Auth from "./Auth";
 import SearchPage from "./components/Search/SearchPage";
 import Profile from "./components/Profile/Profile";
+import Dashboard from "./components/Dashboard/Dashboard";
 
 function LandingPage() {
   const isLoggedIn = !!localStorage.getItem("token");
@@ -59,6 +60,14 @@ function App() {
         element={
           <AppLayout>
             <Profile />
+          </AppLayout>
+        }
+      />
+      <Route
+        path="/dashboard"
+        element={
+          <AppLayout>
+            <Dashboard />
           </AppLayout>
         }
       />

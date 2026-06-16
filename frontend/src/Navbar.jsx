@@ -48,9 +48,7 @@ function Navbar() {
             <li onClick={() => handleProtectedNavigation("/search")}>Search</li>
             {isLoggedIn ? (
               <>
-                <li onClick={() => handleProtectedNavigation("/search")}>
-                  Dashboard
-                </li>
+                <li onClick={() => navigate("/dashboard")}>Dashboard</li>
                 <li onClick={() => handleProtectedNavigation("/search")}>
                   Posts
                 </li>
@@ -68,10 +66,7 @@ function Navbar() {
         <div className="buttons">
           {!isLoggedIn ? (
             <>
-              <button
-                className="get-started"
-                onClick={() => navigate("/auth")}
-              >
+              <button className="get-started" onClick={() => navigate("/auth")}>
                 Get Started
               </button>
             </>
@@ -88,7 +83,9 @@ function Navbar() {
                   <button onClick={() => navigate("/search")}>
                     View Profile
                   </button>
-                  <button onClick={() => navigate("/search")}>Dashboard</button>
+                  <button onClick={() => navigate("/dashboard")}>
+                    Dashboard
+                  </button>
                   <button onClick={handleLogout}>Logout</button>
                 </div>
               )}
