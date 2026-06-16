@@ -11,6 +11,9 @@ function parseJwtPayload(token) {
 export function isTokenValid(token) {
   if (!token || typeof token !== "string") return false;
 
+  // MOCK - remove when real auth is working
+  if (token === "mock-token") return true;
+
   const parts = token.split(".");
   if (parts.length !== 3) return false;
 

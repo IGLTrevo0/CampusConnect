@@ -1,0 +1,313 @@
+.postpage {
+  padding: 110px 30px 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.postpage-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.postpage-header h1 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.postpage-header-accent {
+  background-color: #f4c543;
+  padding: 4px 10px;
+  display: inline-block;
+  border: 2px solid black;
+  transform: rotate(-1deg);
+}
+
+.postpage-header p {
+  color: #444444;
+  font-size: 1.05rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ── Create Post Form ── */
+
+.postpage-form-section {
+  margin-bottom: 3rem;
+}
+
+.postpage-section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #111111;
+}
+
+.postpage-form {
+  border: 2px solid #111111;
+  border-radius: 16px;
+  box-shadow: 6px 6px 0 #000000;
+  background-color: white;
+  padding: 28px;
+}
+
+.postpage-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.postpage-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.postpage-form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.postpage-form-group label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #111111;
+}
+
+.postpage-form-group input,
+.postpage-form-group select,
+.postpage-form-group textarea {
+  padding: 12px 14px;
+  border: 2px solid #111111;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background-color: #fafafa;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.postpage-form-group input:focus,
+.postpage-form-group select:focus,
+.postpage-form-group textarea:focus {
+  border-color: #f4c542;
+}
+
+.postpage-form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.postpage-submit-btn {
+  margin-top: 20px;
+  padding: 14px 32px;
+  border: 2px solid #111111;
+  border-radius: 12px;
+  background-color: #111111;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 #000000;
+  transition: transform 0.15s ease;
+  width: 100%;
+}
+
+.postpage-submit-btn:hover {
+  transform: translate(-1px, -1px);
+}
+
+.postpage-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.postpage-msg-success {
+  margin-top: 16px;
+  padding: 14px 20px;
+  border: 2px solid #166534;
+  border-radius: 12px;
+  background-color: #dcfce7;
+  color: #166534;
+  font-weight: 600;
+  text-align: center;
+}
+
+.postpage-msg-error {
+  margin-top: 16px;
+  padding: 14px 20px;
+  border: 2px solid #991b1b;
+  border-radius: 12px;
+  background-color: #fee2e2;
+  color: #991b1b;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ── View Posts Section ── */
+
+.postpage-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.postpage-card {
+  border: 2px solid #111111;
+  border-radius: 16px;
+  box-shadow: 6px 6px 0 #000000;
+  background-color: white;
+  padding: 20px;
+  transition: transform 0.2s ease;
+}
+
+.postpage-card:hover {
+  transform: translate(-2px, -2px);
+}
+
+.postpage-card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.postpage-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.postpage-tag {
+  display: inline-block;
+  border: 1px solid #111111;
+  border-radius: 90px;
+  padding: 4px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background-color: #f8fbff;
+}
+
+.postpage-tag-hackathon {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.postpage-tag-collaboration {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.postpage-card-desc {
+  font-size: 0.95rem;
+  color: #333333;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.postpage-card-detail {
+  font-size: 0.95rem;
+  color: #333333;
+  margin-bottom: 6px;
+}
+
+.postpage-card-footer {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #dddddd;
+}
+
+.postpage-skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.postpage-skill-tags span {
+  border: 1px solid #111111;
+  border-radius: 90px;
+  padding: 3px 10px;
+  font-size: 0.8rem;
+  background-color: white;
+}
+
+.postpage-status-badge {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 90px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid #111111;
+}
+
+.postpage-status-open {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.postpage-status-closed {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.postpage-status-filled {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+/* ── Loading / Empty / Error (same as Dashboard) ── */
+
+.postpage-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 40px 20px;
+}
+
+.postpage-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #eeeeee;
+  border-top-color: #111111;
+  border-radius: 50%;
+  animation: postpage-spin 0.8s linear infinite;
+}
+
+@keyframes postpage-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.postpage-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666666;
+  font-size: 1.05rem;
+  border: 2px dashed #cccccc;
+  border-radius: 12px;
+  background-color: #fafafa;
+}
+
+@media (max-width: 768px) {
+  .postpage {
+    padding: 100px 16px 40px;
+  }
+
+  .postpage-header h1 {
+    font-size: 2rem;
+  }
+
+  .postpage-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .postpage-cards {
+    grid-template-columns: 1fr;
+  }
+}

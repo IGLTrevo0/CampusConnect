@@ -9,20 +9,22 @@ import "./Footer";
 import Footer from "./Footer";
 import Auth from "./Auth";
 import SearchPage from "./components/Search/SearchPage";
-<<<<<<< HEAD
 import Profile from "./components/Profile/Profile";
-=======
 import Dashboard from "./Dashboard";
+import PostPage from "./PostPage";
 import { getStoredToken } from "./utils/auth";
 
 function ProtectedRoute({ children }) {
+  // MOCK - remove when real auth is working
+  if (!localStorage.getItem("token")) {
+    localStorage.setItem("token", "mock-token");
+  }
   const token = getStoredToken();
   if (!token) {
     return <Navigate to="/auth" replace />;
   }
   return children;
 }
->>>>>>> 2be504c (Updated Dashboard and fixed Navbar)
 
 function LandingPage() {
   return (
@@ -37,22 +39,6 @@ function LandingPage() {
       </main>
       <Footer />
     </>
-  );
-}
-
-function ProfilePage() {
-  return (
-    <div style={{ paddingTop: "110px", padding: "110px 30px" }}>
-      <h1>Profile</h1>
-    </div>
-  );
-}
-
-function PostsPage() {
-  return (
-    <div style={{ paddingTop: "110px", padding: "110px 30px" }}>
-      <h1>Posts</h1>
-    </div>
   );
 }
 
@@ -92,21 +78,11 @@ function App() {
         }
       />
       <Route
-        path="/profile"
-        element={
-          <ProtectedRoute>
-            <AppLayout>
-              <ProfilePage />
-            </AppLayout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
         path="/posts"
         element={
           <ProtectedRoute>
             <AppLayout>
-              <PostsPage />
+              <PostPage />
             </AppLayout>
           </ProtectedRoute>
         }
@@ -114,9 +90,11 @@ function App() {
       <Route
         path="/profile"
         element={
-          <AppLayout>
-            <Profile />
-          </AppLayout>
+          <ProtectedRoute>
+            <AppLayout>
+              <Profile />
+            </AppLayout>
+          </ProtectedRoute>
         }
       />
     </Routes>
