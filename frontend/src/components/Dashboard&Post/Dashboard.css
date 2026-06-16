@@ -1,4 +1,5 @@
 .dashboard-page {
+  min-height: calc(100vh - 220px);
   padding: 110px 30px 60px;
   max-width: 1200px;
   margin: 0 auto;

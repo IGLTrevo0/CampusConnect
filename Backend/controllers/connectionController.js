@@ -1,5 +1,41 @@
 const Connection = require('../models/Connection');
 
+// GET /api/connections/my-requests
+exports.getMyRequests = async (req, res) => {
+  try {
+    const requests = await Connection.find({
+      sender: req.user._id,
+    }).populate(
+      "receiver",
+      "name email role branch year skills"
+    );
+
+    res.json(requests);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// GET /api/connections/received-requests
+exports.getReceivedRequests = async (req, res) => {
+  try {
+    const requests = await Connection.find({
+      receiver: req.user._id,
+    }).populate(
+      "sender",
+      "name email role branch year skills"
+    );
+
+    res.json(requests);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 // POST /api/connections/send/:id — send connection request
 exports.sendRequest = async (req, res) => {
   try {

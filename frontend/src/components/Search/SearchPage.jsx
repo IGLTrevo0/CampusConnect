@@ -145,34 +145,6 @@ function SearchPage() {
         <div className="sidebar">
           <h3>Roles</h3>
 
-          {/* <label>
-            <input
-              type="radio"
-              name="role"
-              checked={selectedRole === "All"}
-              onChange={() => setSelectedRole("All")}
-            />
-            All
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="role"
-              checked={selectedRole === "student"}
-              onChange={() => setSelectedRole("student")}
-            />
-            Students
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="role"
-              checked={selectedRole === "mentor"}
-              onChange={() => setSelectedRole("mentor")}
-            />
-            Mentors
-          </label> */}
 
           <div className="role-filters">
             <button

@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import "./Dashboard.css";
+import { ClipboardList, Handshake, FileText,} from "lucide-react";
 
 const API_BASE = "http://localhost:5000/api";
 
@@ -293,9 +294,9 @@ function Dashboard() {
   };
 
   const tabs = [
-    { id: "applications", label: "My Applications", icon: "📋" },
-    { id: "mentorRequests", label: "Mentor Requests", icon: "🤝" },
-    { id: "myPosts", label: "My Posts", icon: "📌" },
+    { id: "applications", label: "My Applications", icon: <ClipboardList size={20} /> },
+    { id: "mentorRequests", label: "Mentor Requests", icon: <Handshake size={20} /> },
+    { id: "myPosts", label: "My Posts", icon: <FileText size={20} /> },
   ];
 
   return (
@@ -325,7 +326,7 @@ function Dashboard() {
         {activeTab === "applications" && (
           <section className="dashboard-section">
             <h2 className="dashboard-section-title">
-              <span>📋</span> My Applications
+              <span><ClipboardList size={20} /></span> My Applications
             </h2>
             {loading.applications ? (
               <LoadingSpinner />
@@ -367,7 +368,7 @@ function Dashboard() {
         {activeTab === "mentorRequests" && (
           <section className="dashboard-section">
             <h2 className="dashboard-section-title">
-              <span>🤝</span> My Mentor Requests
+              <span><ClipboardList size={20} /></span> My Mentor Requests
             </h2>
             {loading.mentorRequests ? (
               <LoadingSpinner />
@@ -516,7 +517,7 @@ function Dashboard() {
         {activeTab === "myPosts" && (
           <section className="dashboard-section">
             <h2 className="dashboard-section-title">
-              <span>📌</span> My Posts
+              <span><FileText size={20} /></span> My Posts
             </h2>
             {loading.myPosts ? (
               <LoadingSpinner />

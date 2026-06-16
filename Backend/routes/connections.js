@@ -5,7 +5,9 @@ const {
   acceptRequest,
   rejectRequest,
   getConnections,
-  getPendingRequests
+  getPendingRequests,
+  getMyRequests,
+  getReceivedRequests,
 } = require('../controllers/connectionController');
 const protect = require('../middleware/authMiddleware');
 
@@ -16,5 +18,7 @@ router.put('/:id/accept', acceptRequest);
 router.put('/:id/reject', rejectRequest);
 router.get('/', getConnections);
 router.get('/requests', getPendingRequests);
+router.get('/my-requests', getMyRequests);
+router.get('/received-requests', getReceivedRequests);
 
 module.exports = router;

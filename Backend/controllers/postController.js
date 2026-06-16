@@ -1,12 +1,22 @@
-const Post = require('../models/Post');
-const Application = require('../models/Application');
+const Post = require("../models/Post");
+const Application = require("../models/Application");
 
 // @desc    Create a post
 // @route   POST /api/posts
 // @access  Protected
 const createPost = async (req, res) => {
   try {
-    const { title, category, type, description, skillsNeeded, hackathonName, theme, teamSize, deadline } = req.body;
+    const {
+      title,
+      category,
+      type,
+      description,
+      skillsNeeded,
+      hackathonName,
+      theme,
+      teamSize,
+      deadline,
+    } = req.body;
 
     const post = await Post.create({
       creator: req.user._id,
@@ -30,6 +40,22 @@ const createPost = async (req, res) => {
 // @desc    Get all posts
 // @route   GET /api/posts
 // @access  Protected
+const getMyPosts = async (req, res) => {
+  try {
+    const posts = await Post.find({
+      creator: req.user._id,
+    })
+      .populate("creator", "name email branch year")
+      .sort({ createdAt: -1 });
+
+    res.json(posts);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+};
+  };
+
 const getPosts = async (req, res) => {
   try {
     const { category, type, skill, status } = req.query;
@@ -41,7 +67,7 @@ const getPosts = async (req, res) => {
     if (skill) filter.skillsNeeded = { $in: [skill] };
 
     const posts = await Post.find(filter)
-      .populate('creator', 'name email branch year')
+      .populate("creator", "name email branch year")
       .sort({ createdAt: -1 });
 
     res.json(posts);
@@ -55,10 +81,12 @@ const getPosts = async (req, res) => {
 // @access  Protected
 const getPostById = async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id)
-      .populate('creator', 'name email branch year');
+    const post = await Post.findById(req.params.id).populate(
+      "creator",
+      "name email branch year",
+    );
 
-    if (!post) return res.status(404).json({ message: 'Post not found' });
+    if (!post) return res.status(404).json({ message: "Post not found" });
 
     res.json(post);
   } catch (error) {
@@ -73,13 +101,15 @@ const deletePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
-    if (!post) return res.status(404).json({ message: 'Post not found' });
+    if (!post) return res.status(404).json({ message: "Post not found" });
 
     if (post.creator.toString() !== req.user._id.toString())
-      return res.status(403).json({ message: 'Not authorized to delete this post' });
+      return res
+        .status(403)
+        .json({ message: "Not authorized to delete this post" });
 
     await post.deleteOne();
-    res.json({ message: 'Post deleted' });
+    res.json({ message: "Post deleted" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -92,13 +122,18 @@ const applyToPost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
-    if (!post) return res.status(404).json({ message: 'Post not found' });
-    if (post.status !== 'open') return res.status(400).json({ message: 'Post is no longer open' });
+    if (!post) return res.status(404).json({ message: "Post not found" });
+    if (post.status !== "open")
+      return res.status(400).json({ message: "Post is no longer open" });
     if (post.creator.toString() === req.user._id.toString())
-      return res.status(400).json({ message: 'Cannot apply to your own post' });
+      return res.status(400).json({ message: "Cannot apply to your own post" });
 
-    const existing = await Application.findOne({ post: req.params.id, applicant: req.user._id });
-    if (existing) return res.status(400).json({ message: 'Already applied to this post' });
+    const existing = await Application.findOne({
+      post: req.params.id,
+      applicant: req.user._id,
+    });
+    if (existing)
+      return res.status(400).json({ message: "Already applied to this post" });
 
     const application = await Application.create({
       post: req.params.id,
@@ -112,6 +147,31 @@ const applyToPost = async (req, res) => {
   }
 };
 
+// @desc    Get applications submitted by current user
+// @route   GET /api/posts/my-applications
+// @access  Protected
+const getMyApplications = async (req, res) => {
+  try {
+    const applications = await Application.find({
+      applicant: req.user._id,
+    })
+      .populate({
+        path: "post",
+        populate: {
+          path: "creator",
+          select: "name email",
+        },
+      })
+      .sort({ createdAt: -1 });
+
+    res.json(applications);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 // @desc    Get all applications for a post (creator only)
 // @route   GET /api/posts/:id/applications
 // @access  Protected
@@ -119,12 +179,13 @@ const getApplications = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
-    if (!post) return res.status(404).json({ message: 'Post not found' });
+    if (!post) return res.status(404).json({ message: "Post not found" });
     if (post.creator.toString() !== req.user._id.toString())
-      return res.status(403).json({ message: 'Not authorized' });
+      return res.status(403).json({ message: "Not authorized" });
 
-    const applications = await Application.find({ post: req.params.id })
-      .populate('applicant', 'name email branch year skills');
+    const applications = await Application.find({
+      post: req.params.id,
+    }).populate("applicant", "name email branch year skills");
 
     res.json(applications);
   } catch (error) {
@@ -139,17 +200,18 @@ const updateApplicationStatus = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
-    if (!post) return res.status(404).json({ message: 'Post not found' });
+    if (!post) return res.status(404).json({ message: "Post not found" });
     if (post.creator.toString() !== req.user._id.toString())
-      return res.status(403).json({ message: 'Not authorized' });
+      return res.status(403).json({ message: "Not authorized" });
 
     const application = await Application.findByIdAndUpdate(
       req.params.appId,
       { status: req.body.status },
-      { new: true }
+      { new: true },
     );
 
-    if (!application) return res.status(404).json({ message: 'Application not found' });
+    if (!application)
+      return res.status(404).json({ message: "Application not found" });
 
     res.json(application);
   } catch (error) {
@@ -164,10 +226,10 @@ const updatePostStatus = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
-    if (!post) return res.status(404).json({ message: 'Post not found' });
+    if (!post) return res.status(404).json({ message: "Post not found" });
 
     if (post.creator.toString() !== req.user._id.toString())
-      return res.status(403).json({ message: 'Not authorized' });
+      return res.status(403).json({ message: "Not authorized" });
 
     post.status = req.body.status;
     await post.save();
@@ -178,4 +240,15 @@ const updatePostStatus = async (req, res) => {
   }
 };
 
-module.exports = { createPost, getPosts, getPostById, deletePost, applyToPost, getApplications, updateApplicationStatus, updatePostStatus };
+module.exports = {
+  createPost,
+  getPosts,
+  getMyPosts,
+  getPostById,
+  deletePost,
+  applyToPost,
+  getApplications,
+  getMyApplications,
+  updateApplicationStatus,
+  updatePostStatus
+};

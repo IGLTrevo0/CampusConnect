@@ -67,10 +67,11 @@
 
 .discovery-section{
     display: flex;
-    gap: 30px;
+    gap: 100px;
     align-items: flex-start;
 }
 .sidebar{
+    margin-left: 40px;
     width: 250px;
     border: 2px solid black;
     padding: 15px;
@@ -229,6 +230,7 @@
     right: 15px;
     background-color: white;
     border: 1px solid #111111;
+    border-radius: 10px;
     padding: 4px 10px;
     font-size: 15px;
     font-weight: 600;
@@ -264,7 +266,7 @@
     align-items: stretch;
   }
   .sidebar {
-    width: 100%;
+    width: 90%;
   }
 }
 
