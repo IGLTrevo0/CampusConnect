@@ -14,6 +14,7 @@ import VerifyOTP from "./components/Auth/VerifyOTP";
 import CompleteProfile from "./components/Profile/CompleteProfile";
 import PostPage from "./components/Dashboard&Post/PostPage";
 import { isAuthenticated } from "./utils/auth";
+import MeetTheTeam from "./Meet_the_team";
 
 function ProtectedRoute({ children }) {
   if (!isAuthenticated()) {
@@ -118,6 +119,15 @@ function App() {
           <AppLayout>
             <Profile />
           </AppLayout>
+        }
+      />
+      <Route
+        path="/team"
+        element={
+            <AppLayout>
+              <MeetTheTeam />
+            </AppLayout>
+          
         }
       />
     </Routes>

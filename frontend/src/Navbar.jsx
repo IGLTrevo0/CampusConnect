@@ -53,7 +53,7 @@ function Navbar() {
 
                 <li onClick={() => navigate("/posts")}>Posts</li>
 
-                <li>Meet the Team</li>
+                <li onClick={() => navigate("/team")}>Meet the Team</li>
               </ul>
             </div>
           )}
