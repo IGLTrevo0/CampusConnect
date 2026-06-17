@@ -11,9 +11,6 @@ function parseJwtPayload(token) {
 export function isTokenValid(token) {
   if (!token || typeof token !== "string") return false;
 
-  // MOCK - remove when real auth is working
-  if (token === "mock-token") return true;
-
   const parts = token.split(".");
   if (parts.length !== 3) return false;
 
@@ -41,6 +38,15 @@ export function getStoredToken() {
   return token;
 }
 
+export function getStoredUser() {
+  try {
+    const raw = localStorage.getItem(USER_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
 export function setAuthSession({ token, user }) {
   if (!token || !isTokenValid(token)) {
     throw new Error("Invalid token received from server");
@@ -58,4 +64,10 @@ export function isAuthenticated() {
 export function getAuthHeaders() {
   const token = getStoredToken();
   return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+export function getUserName() {
+  const user = getStoredUser();
+  if (user?.name) return user.name;
+  return "User";
 }

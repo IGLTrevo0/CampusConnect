@@ -8,8 +8,13 @@ const UserSchema = new mongoose.Schema({
     unique: true,
     match: [/^[\w.]+@(vitstudent\.ac\.in|vit\.ac\.in)$/, 'Only VIT email addresses are allowed']
   },
-  password: { type: String, required: true },
-  role: { type: String, enum: ['student', 'mentor'], default: 'student' },
+  password: { type: String },
+  authProvider: {
+    type: String,
+    enum: ['google', 'manual'],
+    default: 'manual',
+  },
+  role: { type: String, enum: ['student', 'alumni'], default: 'student' },
 
   // Common profile fields
   college: { type: String, default: 'VIT Vellore' },
@@ -19,24 +24,22 @@ const UserSchema = new mongoose.Schema({
   portfolio: { type: String },
   interests: [String],
   profilePicture: { type: String, default: '' },
+  domain: { type: String },
 
   // Student fields
   year: { type: Number },
   branch: { type: String },
   skills: [String],
 
-  // Mentor fields
+  // Alumni fields
   achievements: [String],
-  mentorAvailability: {
+  alumniAvailability: {
     type: String,
     enum: ['open', 'limited', 'unavailable'],
     default: 'open'
   },
 
-  // Verification
   isVerified: { type: Boolean, default: false },
-  otp: { type: String },
-  otpExpiry: { type: Date },
 
 }, { timestamps: true });
 

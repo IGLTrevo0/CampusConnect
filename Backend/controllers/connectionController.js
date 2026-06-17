@@ -1,4 +1,4 @@
-const Connection = require('../models/Connection');
+const Connection = require('../models/connection');
 
 // GET /api/connections/my-requests
 exports.getMyRequests = async (req, res) => {

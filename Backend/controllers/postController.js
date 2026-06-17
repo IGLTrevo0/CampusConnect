@@ -204,9 +204,15 @@ const updateApplicationStatus = async (req, res) => {
     if (post.creator.toString() !== req.user._id.toString())
       return res.status(403).json({ message: "Not authorized" });
 
-    const application = await Application.findByIdAndUpdate(
-      req.params.appId,
-      { status: req.body.status },
+    const validStatuses = ["pending", "accepted", "rejected"];
+    const status = req.body.status;
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({ message: "Invalid application status" });
+    }
+
+    const application = await Application.findOneAndUpdate(
+      { _id: req.params.appId, post: req.params.id },
+      { status },
       { new: true },
     );
 

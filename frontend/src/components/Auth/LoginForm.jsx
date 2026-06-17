@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
-import axios from "axios";
+import { manualLogin, googleSignIn } from "../../services/authService";
+import { setAuthSession } from "../../utils/auth";
 
 function LoginForm({ setIsLogin }) {
   const navigate = useNavigate();
@@ -10,16 +11,20 @@ function LoginForm({ setIsLogin }) {
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  const handleAuthSuccess = (data) => {
+    setAuthSession({ token: data.token, user: data.user });
+    if (data.isNewUser) {
+      navigate("/complete-profile");
+    } else {
+      navigate("/search");
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/manual-login",
-        formData,
-      );
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      navigate("/search");
+      const data = await manualLogin(formData);
+      handleAuthSuccess(data);
     } catch (error) {
       console.error(error);
       alert(error.response?.data?.message || "Login failed");
@@ -28,14 +33,11 @@ function LoginForm({ setIsLogin }) {
 
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/google", {
-        credential: credentialResponse.credential,
-      });
-
-      localStorage.setItem("token", res.data.token);
-      window.location.href = "/search";
+      const data = await googleSignIn(credentialResponse.credential);
+      handleAuthSuccess(data);
     } catch (err) {
-      console.error(err.response?.data?.message);
+      console.error(err);
+      alert(err.response?.data?.message || "Google Login Failed");
     }
   };
 
@@ -84,7 +86,6 @@ function LoginForm({ setIsLogin }) {
         <GoogleLogin
           onSuccess={handleGoogleSuccess}
           onError={() => {
-            console.log("Login Failed");
             alert("Google Login Failed");
           }}
         />
@@ -99,4 +100,5 @@ function LoginForm({ setIsLogin }) {
     </div>
   );
 }
+
 export default LoginForm;

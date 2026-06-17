@@ -1,34 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import "./Dashboard.css";
-import { ClipboardList, Handshake, FileText,} from "lucide-react";
-
-const API_BASE = "http://localhost:5000/api";
-
-function getAuthHeaders() {
-  return {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  };
-}
-
-function getUserName() {
-  try {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user?.name) return user.name;
-  } catch {
-    /* ignore */
-  }
-  try {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const payload = JSON.parse(atob(token.split(".")[1]));
-      return payload.name || payload.username || "User";
-    }
-  } catch {
-    /* ignore */
-  }
-  return "User";
-}
+import { ClipboardList, Handshake, FileText } from "lucide-react";
+import { API_URL } from "../../config/api";
+import { getUserName } from "../../utils/auth";
 
 function getInitials(name) {
   if (!name) return "?";
@@ -98,20 +73,20 @@ function LoadingSpinner() {
 function Dashboard() {
   const [activeTab, setActiveTab] = useState("applications");
   const [applications, setApplications] = useState([]);
-  const [mentorRequests, setMentorRequests] = useState([]);
+  const [sentConnections, setSentConnections] = useState([]);
   const [receivedRequests, setReceivedRequests] = useState([]);
   const [myPosts, setMyPosts] = useState([]);
   const [applicantsMap, setApplicantsMap] = useState({});
   const [expandedPosts, setExpandedPosts] = useState({});
   const [loading, setLoading] = useState({
     applications: true,
-    mentorRequests: true,
+    sentConnections: true,
     receivedRequests: true,
     myPosts: true,
   });
   const [errors, setErrors] = useState({
     applications: "",
-    mentorRequests: "",
+    sentConnections: "",
     receivedRequests: "",
     myPosts: "",
   });
@@ -122,9 +97,7 @@ function Dashboard() {
     setLoading((prev) => ({ ...prev, applications: true }));
     setErrors((prev) => ({ ...prev, applications: "" }));
     try {
-      const response = await axios.get(`${API_BASE}/posts/my-applications`, {
-        headers: getAuthHeaders(),
-      });
+      const response = await axios.get(`${API_URL}/posts/my-applications`);
       setApplications(response.data);
     } catch (error) {
       setErrors((prev) => ({
@@ -138,23 +111,21 @@ function Dashboard() {
     }
   }, []);
 
-  const fetchMentorRequests = useCallback(async () => {
-    setLoading((prev) => ({ ...prev, mentorRequests: true }));
-    setErrors((prev) => ({ ...prev, mentorRequests: "" }));
+  const fetchSentConnections = useCallback(async () => {
+    setLoading((prev) => ({ ...prev, sentConnections: true }));
+    setErrors((prev) => ({ ...prev, sentConnections: "" }));
     try {
-      const response = await axios.get(`${API_BASE}/connections/my-requests`, {
-        headers: getAuthHeaders(),
-      });
-      setMentorRequests(response.data);
+      const response = await axios.get(`${API_URL}/connections/my-requests`);
+      setSentConnections(response.data);
     } catch (error) {
       setErrors((prev) => ({
         ...prev,
-        mentorRequests:
-          error.response?.data?.message || "Failed to load mentor requests.",
+        sentConnections:
+          error.response?.data?.message || "Failed to load connection requests.",
       }));
-      setMentorRequests([]);
+      setSentConnections([]);
     } finally {
-      setLoading((prev) => ({ ...prev, mentorRequests: false }));
+      setLoading((prev) => ({ ...prev, sentConnections: false }));
     }
   }, []);
 
@@ -162,10 +133,7 @@ function Dashboard() {
     setLoading((prev) => ({ ...prev, receivedRequests: true }));
     setErrors((prev) => ({ ...prev, receivedRequests: "" }));
     try {
-      const response = await axios.get(
-        `${API_BASE}/connections/received-requests`,
-        { headers: getAuthHeaders() },
-      );
+      const response = await axios.get(`${API_URL}/connections/received-requests`);
       setReceivedRequests(response.data);
     } catch (error) {
       setErrors((prev) => ({
@@ -183,9 +151,7 @@ function Dashboard() {
     setLoading((prev) => ({ ...prev, myPosts: true }));
     setErrors((prev) => ({ ...prev, myPosts: "" }));
     try {
-      const response = await axios.get(`${API_BASE}/posts/my-posts`, {
-        headers: getAuthHeaders(),
-      });
+      const response = await axios.get(`${API_URL}/posts/my-posts`);
       setMyPosts(response.data);
     } catch (error) {
       setErrors((prev) => ({
@@ -200,17 +166,14 @@ function Dashboard() {
 
   useEffect(() => {
     fetchApplications();
-    fetchMentorRequests();
+    fetchSentConnections();
     fetchReceivedRequests();
     fetchMyPosts();
-  }, [fetchApplications, fetchMentorRequests, fetchReceivedRequests, fetchMyPosts]);
+  }, [fetchApplications, fetchSentConnections, fetchReceivedRequests, fetchMyPosts]);
 
   const fetchApplicants = async (postId) => {
     try {
-      const response = await axios.get(
-        `${API_BASE}/posts/${postId}/applicants`,
-        { headers: getAuthHeaders() },
-      );
+      const response = await axios.get(`${API_URL}/posts/${postId}/applications`);
       setApplicantsMap((prev) => ({ ...prev, [postId]: response.data }));
     } catch (error) {
       setApplicantsMap((prev) => ({
@@ -228,14 +191,12 @@ function Dashboard() {
     }
   };
 
-  const handleApplicantStatus = async (postId, userId, status) => {
-    setActionLoading(`${postId}-${userId}`);
+  const handleApplicantStatus = async (postId, applicationId, status) => {
+    setActionLoading(`${postId}-${applicationId}`);
     try {
-      await axios.put(
-        `${API_BASE}/posts/${postId}/applicants/${userId}/status`,
-        { status },
-        { headers: getAuthHeaders() },
-      );
+      await axios.put(`${API_URL}/posts/${postId}/applications/${applicationId}`, {
+        status,
+      });
       await fetchApplicants(postId);
     } catch (error) {
       alert(error.response?.data?.message || "Failed to update applicant status.");
@@ -247,20 +208,18 @@ function Dashboard() {
   const handleConnectionStatus = async (connectionId, status) => {
     setActionLoading(`conn-${connectionId}`);
     try {
-      await axios.put(
-        `${API_BASE}/connections/${connectionId}/status`,
-        { status },
-        { headers: getAuthHeaders() },
-      );
+      const endpoint =
+        status === "accepted"
+          ? `${API_URL}/connections/${connectionId}/accept`
+          : `${API_URL}/connections/${connectionId}/reject`;
+      await axios.put(endpoint);
       setReceivedRequests((prev) =>
         prev.map((req) =>
           (req._id || req.id) === connectionId ? { ...req, status } : req,
         ),
       );
     } catch (error) {
-      alert(
-        error.response?.data?.message || "Failed to update request status.",
-      );
+      alert(error.response?.data?.message || "Failed to update request status.");
     } finally {
       setActionLoading(null);
     }
@@ -278,7 +237,7 @@ function Dashboard() {
   const getApplicationDate = (app) =>
     formatDate(app.appliedAt || app.createdAt || app.appliedDate);
 
-  const getMentor = (req) => req.mentor || req.receiver || req.user || req;
+  const getConnectionTarget = (req) => req.receiver || req.user || req;
 
   const getSender = (req) => req.sender || req.user || req;
 
@@ -288,14 +247,11 @@ function Dashboard() {
   const getApplicantStatus = (applicant) =>
     applicant.status || "pending";
 
-  const getApplicantId = (applicant) => {
-    const user = getApplicantUser(applicant);
-    return user._id || user.id || applicant.userId || applicant._id;
-  };
+  const getApplicantId = (application) => application._id || application.id;
 
   const tabs = [
     { id: "applications", label: "My Applications", icon: <ClipboardList size={20} /> },
-    { id: "mentorRequests", label: "Mentor Requests", icon: <Handshake size={20} /> },
+    { id: "sentConnections", label: "Connection Requests", icon: <Handshake size={20} /> },
     { id: "myPosts", label: "My Posts", icon: <FileText size={20} /> },
   ];
 
@@ -305,7 +261,7 @@ function Dashboard() {
         <h1>
           Welcome back, <span className="dashboard-name">{userName}</span>!
         </h1>
-        <p>Track your applications, mentor requests, and manage applicants.</p>
+        <p>Track your applications, connection requests, and manage applicants.</p>
       </header>
 
       <nav className="dashboard-tabs">
@@ -365,25 +321,25 @@ function Dashboard() {
           </section>
         )}
 
-        {activeTab === "mentorRequests" && (
+        {activeTab === "sentConnections" && (
           <section className="dashboard-section">
             <h2 className="dashboard-section-title">
-              <span><ClipboardList size={20} /></span> My Mentor Requests
+              <span><Handshake size={20} /></span> Sent Connection Requests
             </h2>
-            {loading.mentorRequests ? (
+            {loading.sentConnections ? (
               <LoadingSpinner />
-            ) : errors.mentorRequests ? (
-              <p className="dashboard-error">{errors.mentorRequests}</p>
-            ) : mentorRequests.length === 0 ? (
-              <p className="dashboard-empty">No mentor requests sent</p>
+            ) : errors.sentConnections ? (
+              <p className="dashboard-error">{errors.sentConnections}</p>
+            ) : sentConnections.length === 0 ? (
+              <p className="dashboard-empty">No connection requests sent</p>
             ) : (
               <div className="dashboard-cards">
-                {mentorRequests.map((req, index) => {
-                  const mentor = getMentor(req);
-                  const mentorName = mentor.name || "Unknown Mentor";
-                  const mentorSkills =
-                    mentor.domain ||
-                    mentor.skills?.slice(0, 3).join(", ") ||
+                {sentConnections.map((req, index) => {
+                  const target = getConnectionTarget(req);
+                  const targetName = target.name || "Unknown User";
+                  const targetSkills =
+                    target.domain ||
+                    target.skills?.slice(0, 3).join(", ") ||
                     "—";
                   return (
                     <div
@@ -391,22 +347,20 @@ function Dashboard() {
                       className="dashboard-card"
                     >
                       <div className="dashboard-mentor-row">
-                        {mentor.profilePicture ? (
+                        {target.profilePicture ? (
                           <img
-                            src={mentor.profilePicture}
-                            alt={mentorName}
+                            src={target.profilePicture}
+                            alt={targetName}
                             className="dashboard-avatar dashboard-avatar-img"
                           />
                         ) : (
                           <div className="dashboard-avatar">
-                            {getInitials(mentorName)}
+                            {getInitials(targetName)}
                           </div>
                         )}
                         <div>
-                          <h3 className="dashboard-card-title">{mentorName}</h3>
-                          <p className="dashboard-card-detail">
-                            {mentorSkills}
-                          </p>
+                          <h3 className="dashboard-card-title">{targetName}</h3>
+                          <p className="dashboard-card-detail">{targetSkills}</p>
                         </div>
                       </div>
                       <p className="dashboard-card-detail">
@@ -575,16 +529,16 @@ function Dashboard() {
                               No applicants yet
                             </p>
                           ) : (
-                            applicants.map((applicant, appIndex) => {
-                              const user = getApplicantUser(applicant);
-                              const userId = getApplicantId(applicant);
-                              const status = getApplicantStatus(applicant);
+                            applicants.map((application, appIndex) => {
+                              const user = getApplicantUser(application);
+                              const applicationId = getApplicantId(application);
+                              const status = getApplicantStatus(application);
                               const normalized = normalizeStatus(status);
                               const isPending = normalized === "PENDING";
 
                               return (
                                 <div
-                                  key={userId || appIndex}
+                                  key={applicationId || appIndex}
                                   className="dashboard-applicant-row"
                                 >
                                   <div className="dashboard-applicant-info">
@@ -618,13 +572,13 @@ function Dashboard() {
                                           className="dashboard-btn-approve"
                                           disabled={
                                             actionLoading ===
-                                            `${postId}-${userId}`
+                                            `${postId}-${applicationId}`
                                           }
                                           onClick={() =>
                                             handleApplicantStatus(
                                               postId,
-                                              userId,
-                                              "approved",
+                                              applicationId,
+                                              "accepted",
                                             )
                                           }
                                         >
@@ -635,12 +589,12 @@ function Dashboard() {
                                           className="dashboard-btn-reject"
                                           disabled={
                                             actionLoading ===
-                                            `${postId}-${userId}`
+                                            `${postId}-${applicationId}`
                                           }
                                           onClick={() =>
                                             handleApplicantStatus(
                                               postId,
-                                              userId,
+                                              applicationId,
                                               "rejected",
                                             )
                                           }
