@@ -125,6 +125,8 @@ const applyToPost = async (req, res) => {
     if (!post) return res.status(404).json({ message: "Post not found" });
     if (post.status !== "open")
       return res.status(400).json({ message: "Post is no longer open" });
+    if (post.deadline && new Date() > new Date(post.deadline))
+      return res.status(400).json({ message: "Post deadline has passed" });
     if (post.creator.toString() === req.user._id.toString())
       return res.status(400).json({ message: "Cannot apply to your own post" });
 
