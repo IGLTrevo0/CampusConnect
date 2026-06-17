@@ -1,14 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
+import { getPosts, createPost, applyToPost } from "../../services/postService";
+import { getStoredUser } from "../../utils/auth";
 import "./PostPage.css";
-
-const API_BASE = "http://localhost:5000/api";
-
-function getAuthHeaders() {
-  return {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  };
-}
 
 function formatDate(dateStr) {
   if (!dateStr) return "—";
@@ -20,7 +13,6 @@ function formatDate(dateStr) {
 }
 
 function PostPage() {
-  // ── Create Post state ──
   const [formData, setFormData] = useState({
     title: "",
     category: "collaboration",
@@ -34,29 +26,39 @@ function PostPage() {
   });
   const [submitting, setSubmitting] = useState(false);
   const [formMsg, setFormMsg] = useState({ type: "", text: "" });
-
-  // ── View Posts state ──
   const [posts, setPosts] = useState([]);
   const [loadingPosts, setLoadingPosts] = useState(true);
+  const [applyingId, setApplyingId] = useState(null);
+  const [applyMsg, setApplyMsg] = useState({});
 
-  const fetchPosts = useCallback(async () => {
-    setLoadingPosts(true);
-    try {
-      const response = await axios.get(`${API_BASE}/posts`, {
-        headers: getAuthHeaders(),
-      });
-      setPosts(response.data);
-    } catch (error) {
-      console.error("Failed to fetch posts:", error);
-      setPosts([]);
-    } finally {
-      setLoadingPosts(false);
-    }
-  }, []);
+  const currentUserId = getStoredUser()?.id;
 
   useEffect(() => {
-    fetchPosts();
-  }, [fetchPosts]);
+    let cancelled = false;
+
+    async function loadPosts() {
+      setLoadingPosts(true);
+      try {
+        const data = await getPosts();
+        if (!cancelled) setPosts(data);
+      } catch (error) {
+        console.error("Failed to fetch posts:", error);
+        if (!cancelled) setPosts([]);
+      } finally {
+        if (!cancelled) setLoadingPosts(false);
+      }
+    }
+
+    loadPosts();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const refreshPosts = async () => {
+    const data = await getPosts();
+    setPosts(data);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -88,9 +90,7 @@ function PostPage() {
         payload.teamSize = 1;
       }
 
-      await axios.post(`${API_BASE}/posts`, payload, {
-        headers: getAuthHeaders(),
-      });
+      await createPost(payload);
 
       setFormMsg({ type: "success", text: "Post created successfully!" });
       setFormData({
@@ -104,7 +104,7 @@ function PostPage() {
         teamSize: "",
         deadline: "",
       });
-      fetchPosts();
+      await refreshPosts();
     } catch (error) {
       setFormMsg({
         type: "error",
@@ -115,21 +115,40 @@ function PostPage() {
     }
   };
 
+  const handleApply = async (postId) => {
+    const message = window.prompt("Optional message to the post creator:") ?? "";
+    setApplyingId(postId);
+    setApplyMsg((prev) => ({ ...prev, [postId]: "" }));
+    try {
+      await applyToPost(postId, message);
+      setApplyMsg((prev) => ({ ...prev, [postId]: "Application sent!" }));
+    } catch (error) {
+      setApplyMsg((prev) => ({
+        ...prev,
+        [postId]: error.response?.data?.message || "Failed to apply.",
+      }));
+    } finally {
+      setApplyingId(null);
+    }
+  };
+
+  const canApply = (post) => {
+    if (post.status !== "open") return false;
+    const creatorId = post.creator?._id || post.creator;
+    return creatorId && String(creatorId) !== String(currentUserId);
+  };
+
   return (
     <div className="postpage">
       <header className="postpage-header">
         <h1>
-          Campus{" "}
-          <span className="postpage-header-accent">Posts</span>
+          Campus <span className="postpage-header-accent">Posts</span>
         </h1>
         <p>Create collaboration posts or find hackathon teammates.</p>
       </header>
 
-      {/* ── Section 1: Create Post ── */}
       <section className="postpage-form-section">
-        <h2 className="postpage-section-title">
-          Create a Post
-        </h2>
+        <h2 className="postpage-section-title">Create a Post</h2>
         <form className="postpage-form" onSubmit={handleSubmit}>
           <div className="postpage-form-grid">
             <div className="postpage-form-group full-width">
@@ -254,11 +273,7 @@ function PostPage() {
             )}
           </div>
 
-          <button
-            type="submit"
-            className="postpage-submit-btn"
-            disabled={submitting}
-          >
+          <button type="submit" className="postpage-submit-btn" disabled={submitting}>
             {submitting ? "Creating..." : "Create Post"}
           </button>
 
@@ -276,11 +291,8 @@ function PostPage() {
         </form>
       </section>
 
-      {/* ── Section 2: View Posts ── */}
       <section>
-        <h2 className="postpage-section-title">
-          All Posts
-        </h2>
+        <h2 className="postpage-section-title">All Posts</h2>
 
         {loadingPosts ? (
           <div className="postpage-loading">
@@ -310,8 +322,8 @@ function PostPage() {
                       post.status === "open"
                         ? "postpage-status-open"
                         : post.status === "filled"
-                        ? "postpage-status-filled"
-                        : "postpage-status-closed"
+                          ? "postpage-status-filled"
+                          : "postpage-status-closed"
                     }`}
                   >
                     {post.status}
@@ -319,8 +331,7 @@ function PostPage() {
                 </div>
                 <p className="postpage-card-desc">{post.description}</p>
                 <p className="postpage-card-detail">
-                  <strong>Creator:</strong>{" "}
-                  {post.creator?.name || "Unknown"}
+                  <strong>Creator:</strong> {post.creator?.name || "Unknown"}
                 </p>
                 {post.creator?.branch && (
                   <p className="postpage-card-detail">
@@ -349,13 +360,30 @@ function PostPage() {
                 <p className="postpage-card-detail">
                   <strong>Posted:</strong> {formatDate(post.createdAt)}
                 </p>
-                {post.skillsNeeded && Array.isArray(post.skillsNeeded) && post.skillsNeeded.length > 0 && (
+                {post.skillsNeeded?.length > 0 && (
                   <div className="postpage-card-footer">
                     <div className="postpage-skill-tags">
                       {post.skillsNeeded.map((skill) => (
                         <span key={skill}>{skill}</span>
                       ))}
                     </div>
+                  </div>
+                )}
+                {canApply(post) && (
+                  <div className="postpage-card-footer">
+                    <button
+                      type="button"
+                      className="postpage-submit-btn"
+                      disabled={applyingId === post._id}
+                      onClick={() => handleApply(post._id)}
+                    >
+                      {applyingId === post._id ? "Applying..." : "Apply"}
+                    </button>
+                    {applyMsg[post._id] && (
+                      <p style={{ marginTop: "0.5rem", fontSize: "0.9rem" }}>
+                        {applyMsg[post._id]}
+                      </p>
+                    )}
                   </div>
                 )}
               </div>

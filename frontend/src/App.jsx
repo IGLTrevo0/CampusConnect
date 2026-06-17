@@ -13,14 +13,10 @@ import Dashboard from "./components/Dashboard&Post/Dashboard";
 import VerifyOTP from "./components/Auth/VerifyOTP";
 import CompleteProfile from "./components/Profile/CompleteProfile";
 import PostPage from "./components/Dashboard&Post/PostPage";
-import { getStoredToken } from "./utils/auth";
+import { isAuthenticated } from "./utils/auth";
 
 function ProtectedRoute({ children }) {
-  if (!localStorage.getItem("token")) {
-    localStorage.setItem("token", "mock-token");
-  }
-  const token = getStoredToken();
-  if (!token) {
+  if (!isAuthenticated()) {
     return <Navigate to="/auth" replace />;
   }
   return children;
@@ -64,9 +60,11 @@ function App() {
       <Route
         path="/complete-profile"
         element={
-          <AppLayout>
-            <CompleteProfile />
-          </AppLayout>
+          <ProtectedRoute>
+            <AppLayout>
+              <CompleteProfile />
+            </AppLayout>
+          </ProtectedRoute>
         }
       />
 

@@ -1,124 +1,69 @@
 import "./Search.css";
-import UserCard from "./UserCard";
 import { useEffect, useState } from "react";
-import { getUser } from "../../services/userService";
+import { searchUsers } from "../../services/userService";
 import DiscoveryGrid from "./DiscoveryGrid";
-
-// const mockUsers = [
-//   {
-//     _id: "1",
-//     name: "Aditya Sharma",
-//     branch: "CSE",
-//     year: 2027,
-//     role: "Students",
-//     domain: "Frontend",
-//     skills: ["React", "JavaScript", "Tailwind"],
-//   },
-//   {
-//     _id: "2",
-//     name: "Rahul Verma",
-//     branch: "ECE",
-//     year: 2026,
-//     role: "Students",
-//     domain: "AI/ML",
-//     skills: ["Python", "TensorFlow", "Machine Learning"],
-//   },
-//   {
-//     _id: "3",
-//     name: "Priya Singh",
-//     branch: "IT",
-//     year: 2027,
-//     role: "Students",
-//     domain: "Design",
-//     skills: ["Figma", "UI/UX", "Prototyping"],
-//   },
-//   {
-//     _id: "4",
-//     name: "Aman Gupta",
-//     branch: "CSE",
-//     year: 2025,
-//     role: "Mentors",
-//     domain: "Backend",
-//     skills: ["Node.js", "Express", "MongoDB"],
-//   },
-//   {
-//     _id: "5",
-//     name: "Sarah Chen",
-//     branch: "CSE",
-//     year: 2024,
-//     role: "Mentors",
-//     domain: "AI/ML",
-//     skills: ["Deep Learning", "PyTorch", "Data Science"],
-//   },
-//   {
-//     _id: "6",
-//     name: "Jordan Lee",
-//     branch: "IT",
-//     year: 2025,
-//     role: "Mentors",
-//     domain: "Frontend",
-//     skills: ["React", "Next.js", "TypeScript"],
-//   },
-//   {
-//     _id: "7",
-//     name: "Neha Kapoor",
-//     branch: "CSE",
-//     year: 2028,
-//     role: "Students",
-//     domain: "Backend",
-//     skills: ["Java", "Spring Boot", "SQL"],
-//   },
-//   {
-//     _id: "8",
-//     name: "Rohan Mehta",
-//     branch: "ECE",
-//     year: 2026,
-//     role: "Students",
-//     domain: "Frontend",
-//     skills: ["HTML", "CSS", "JavaScript"],
-//   },
-// ];
 
 function SearchPage() {
   const [users, setUsers] = useState([]);
-  // const [users, setUsers] = useState(mockUsers);
   const [selectedRole, setSelectedRole] = useState("All");
   const [selectedDomain, setSelectedDomain] = useState("");
   const [visibleCount, setVisibleCount] = useState(3);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchUsers = async () => {
+      setLoading(true);
       try {
-        const data = await getUser();
-        console.log(data);
+        const params = {};
+        if (selectedRole !== "All") params.role = selectedRole;
+        if (selectedDomain) params.domain = selectedDomain;
+        const data = await searchUsers(params);
         setUsers(data);
       } catch (error) {
         console.error(error);
+        setUsers([]);
+      } finally {
+        setLoading(false);
       }
     };
     fetchUsers();
-  }, []);
-
-  const [searchTerm, setSearchTerm] = useState("");
+  }, [selectedRole, selectedDomain]);
 
   const filteredUsers = users.filter((user) => {
-    const matchesSearch =
-      user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.skills?.some((skill) =>
-        skill.toLowerCase().includes(searchTerm.toLowerCase()),
-      );
-
-    const matchesRole = selectedRole === "All" || user.role === selectedRole;
-
-    const matchesDomain =
-      selectedDomain === "" || user.domain === selectedDomain;
-
-    return matchesSearch && matchesRole && matchesDomain;
+    if (!searchTerm) return true;
+    const term = searchTerm.toLowerCase();
+    return (
+      user.name?.toLowerCase().includes(term) ||
+      user.skills?.some((skill) => skill.toLowerCase().includes(term)) ||
+      user.domain?.toLowerCase().includes(term)
+    );
   });
+
   const displayedUsers = filteredUsers.slice(0, visibleCount);
 
-  useEffect(() => {
+  const handleRoleChange = (role) => {
+    setSelectedRole(role);
     setVisibleCount(3);
-  }, [searchTerm, selectedRole, selectedDomain]);
+  };
+
+  const handleDomainChange = (domain) => {
+    setSelectedDomain((current) => (current === domain ? "" : domain));
+    setVisibleCount(3);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    setVisibleCount(3);
+  };
+
+  const clearFilters = () => {
+    setSelectedRole("All");
+    setSelectedDomain("");
+    setSearchTerm("");
+    setVisibleCount(3);
+  };
+
   return (
     <div className="search-page">
       <section className="search-hero">
@@ -126,7 +71,7 @@ function SearchPage() {
           Discover <span className="first-span">Talent</span> on Campus.
         </h1>
         <p>
-          Find mentors, project collaborators, and hackathon teammates based on
+          Find alumni, project collaborators, and hackathon teammates based on
           verified skills and real experience.
         </p>
 
@@ -135,37 +80,38 @@ function SearchPage() {
           <input
             type="text"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={handleSearchChange}
             placeholder="Search by skill, domain, or name..."
           />
-          <button className="search-btn">Search</button>
+          <button className="search-btn" type="button">
+            Search
+          </button>
         </div>
       </section>
       <section className="discovery-section">
         <div className="sidebar">
           <h3>Roles</h3>
 
-
           <div className="role-filters">
             <button
               className={selectedRole === "All" ? "active-role" : ""}
-              onClick={() => setSelectedRole("All")}
+              onClick={() => handleRoleChange("All")}
             >
               All
             </button>
 
             <button
               className={selectedRole === "student" ? "active-role" : ""}
-              onClick={() => setSelectedRole("student")}
+              onClick={() => handleRoleChange("student")}
             >
               Students
             </button>
 
             <button
-              className={selectedRole === "mentor" ? "active-role" : ""}
-              onClick={() => setSelectedRole("mentor")}
+              className={selectedRole === "alumni" ? "active-role" : ""}
+              onClick={() => handleRoleChange("alumni")}
             >
-              Mentors
+              Alumni
             </button>
           </div>
 
@@ -173,62 +119,50 @@ function SearchPage() {
           <div className="domain-tags">
             <button
               className={selectedDomain === "Frontend" ? "active-domain" : ""}
-              onClick={() =>
-                setSelectedDomain(
-                  selectedDomain === "Frontend" ? "" : "Frontend",
-                )
-              }
+              onClick={() => handleDomainChange("Frontend")}
             >
               Frontend
             </button>
 
             <button
               className={selectedDomain === "Backend" ? "active-domain" : ""}
-              onClick={() =>
-                setSelectedDomain(selectedDomain === "Backend" ? "" : "Backend")
-              }
+              onClick={() => handleDomainChange("Backend")}
             >
               Backend
             </button>
 
             <button
               className={selectedDomain === "AI/ML" ? "active-domain" : ""}
-              onClick={() =>
-                setSelectedDomain(selectedDomain === "AI/ML" ? "" : "AI/ML")
-              }
+              onClick={() => handleDomainChange("AI/ML")}
             >
               AI/ML
             </button>
 
             <button
               className={selectedDomain === "Design" ? "active-domain" : ""}
-              onClick={() =>
-                setSelectedDomain(selectedDomain === "Design" ? "" : "Design")
-              }
+              onClick={() => handleDomainChange("Design")}
             >
               Design
             </button>
-            <button
-              className="clear-btn"
-              onClick={() => {
-                setSelectedRole("All");
-                setSelectedDomain("");
-                setSearchTerm("");
-              }}
-            >
+            <button className="clear-btn" onClick={clearFilters}>
               Clear Filters
             </button>
           </div>
         </div>
 
-        <DiscoveryGrid
-          filteredUsers={displayedUsers}
-          totalUsers={filteredUsers.length}
-          onLoadMore={() => setVisibleCount((prev) => prev + 6)}
-          hasMore={visibleCount < filteredUsers.length}
-        />
+        {loading ? (
+          <p>Loading users...</p>
+        ) : (
+          <DiscoveryGrid
+            filteredUsers={displayedUsers}
+            totalUsers={filteredUsers.length}
+            onLoadMore={() => setVisibleCount((prev) => prev + 6)}
+            hasMore={visibleCount < filteredUsers.length}
+          />
+        )}
       </section>
     </div>
   );
 }
+
 export default SearchPage;

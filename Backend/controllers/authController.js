@@ -109,6 +109,38 @@ exports.manualSignup = async (req, res) => {
   }
 };
 
+exports.resendOTP = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const otpRecord = await OTP.findOne({ email });
+    if (!otpRecord) {
+      return res.status(400).json({ message: 'OTP expired or not requested' });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    otpRecord.otp = otp;
+    otpRecord.createdAt = new Date();
+    await otpRecord.save();
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER || "CampusConnect",
+      to: email,
+      subject: 'CampusConnect - Your Verification Code',
+      text: `Your OTP for CampusConnect is: ${otp}. It is valid for 5 minutes.`
+    };
+
+    transporter.sendMail(mailOptions, (error) => {
+      if (error) {
+        console.error("Error sending email:", error.message);
+        return res.status(200).json({ message: 'OTP regenerated (Email not configured, check console)', email });
+      }
+      return res.status(200).json({ message: 'OTP sent to email', email });
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // 3. VERIFY OTP (Completes Manual Signup)
 exports.verifyOTP = async (req, res) => {
   try {
@@ -159,6 +191,10 @@ exports.manualLogin = async (req, res) => {
     // Block Google users from using the password form
     if (user.authProvider === 'google' && !user.password) {
        return res.status(400).json({ message: 'Please sign in with Google' });
+    }
+
+    if (!user.password) {
+      return res.status(400).json({ message: 'Invalid credentials' });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);

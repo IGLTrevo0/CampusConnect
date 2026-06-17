@@ -2,41 +2,44 @@ import "./Profile.css";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getUserById } from "../../services/userService";
+import { getMe } from "../../services/authService";
 
 export default function Profile() {
   const { id } = useParams();
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    if (!id) return;
-
     const fetchUser = async () => {
+      setLoading(true);
+      setError("");
       try {
-        const data = await getUserById(id);
+        const data = id ? await getUserById(id) : await getMe();
         setUser(data);
-      } catch (error) {
-        console.error(error);
+      } catch (err) {
+        console.error(err);
+        setError(err.response?.data?.message || "Failed to load profile.");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchUser();
   }, [id]);
 
-  if (!id) {
+  if (loading) {
     return (
       <div className="profile-page">
-        <h2>Your Profile Page</h2>
-        <p>
-          Logged-in profile wiring is pending backend integration.
-        </p>
+        <h2>Loading Profile...</h2>
       </div>
     );
   }
 
-  if (!user) {
+  if (error || !user) {
     return (
       <div className="profile-page">
-        <h2>Loading Profile...</h2>
+        <h2>{error || "Profile not found"}</h2>
       </div>
     );
   }
@@ -46,8 +49,7 @@ export default function Profile() {
       <div
         className="profile-banner"
         style={{
-          background:
-            "linear-gradient(135deg, #4f46ff 0%, #7c3aed 100%)",
+          background: "linear-gradient(135deg, #4f46ff 0%, #7c3aed 100%)",
         }}
       />
 
@@ -67,30 +69,25 @@ export default function Profile() {
           </div>
 
           <div>
-            <h1 className="profile-name">
-              {user.name}
-            </h1>
+            <h1 className="profile-name">{user.name}</h1>
 
             <p className="profile-subtitle">
               {user.branch || "Branch Not Added"}
               {user.year && ` • Year ${user.year}`}
             </p>
 
-            <p className="profile-subtitle">
-              {user.college}
-            </p>
+            <p className="profile-subtitle">{user.college}</p>
+            {user.domain && (
+              <p className="profile-subtitle">Domain: {user.domain}</p>
+            )}
           </div>
         </div>
 
         <div className="profile-actions">
-          <button className="profile-message-btn">
-            Message
-          </button>
+          <button className="profile-message-btn">Message</button>
 
-          {user.role === "mentor" && (
-            <button className="profile-mentor-btn">
-              Request Mentorship
-            </button>
+          {user.role === "alumni" && (
+            <button className="profile-mentor-btn">Request Mentorship</button>
           )}
         </div>
       </div>
@@ -100,9 +97,7 @@ export default function Profile() {
           <div className="profile-card">
             <h2>Bio</h2>
             <hr />
-            <p>
-              {user.bio || "No bio added yet."}
-            </p>
+            <p>{user.bio || "No bio added yet."}</p>
           </div>
 
           <div className="profile-card">
@@ -111,11 +106,7 @@ export default function Profile() {
 
             {user.github && (
               <p>
-                <a
-                  href={user.github}
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <a href={user.github} target="_blank" rel="noreferrer">
                   GitHub
                 </a>
               </p>
@@ -123,11 +114,7 @@ export default function Profile() {
 
             {user.linkedin && (
               <p>
-                <a
-                  href={user.linkedin}
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <a href={user.linkedin} target="_blank" rel="noreferrer">
                   LinkedIn
                 </a>
               </p>
@@ -135,11 +122,7 @@ export default function Profile() {
 
             {user.portfolio && (
               <p>
-                <a
-                  href={user.portfolio}
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <a href={user.portfolio} target="_blank" rel="noreferrer">
                   Portfolio
                 </a>
               </p>
@@ -153,11 +136,7 @@ export default function Profile() {
 
             <div className="profile-skills">
               {user.skills?.length > 0 ? (
-                user.skills.map((skill) => (
-                  <span key={skill}>
-                    {skill}
-                  </span>
-                ))
+                user.skills.map((skill) => <span key={skill}>{skill}</span>)
               ) : (
                 <p>No skills added</p>
               )}
@@ -173,9 +152,7 @@ export default function Profile() {
             <div className="profile-skills">
               {user.interests?.length > 0 ? (
                 user.interests.map((interest) => (
-                  <span key={interest}>
-                    {interest}
-                  </span>
+                  <span key={interest}>{interest}</span>
                 ))
               ) : (
                 <p>No interests added</p>
@@ -183,29 +160,22 @@ export default function Profile() {
             </div>
           </div>
 
-          {user.role === "mentor" && (
+          {user.role === "alumni" && (
             <div className="profile-card">
               <h2>Achievements</h2>
               <hr />
 
               {user.achievements?.length > 0 ? (
-                user.achievements.map(
-                  (achievement, index) => (
-                    <p key={index}>
-                      • {achievement}
-                    </p>
-                  ),
-                )
+                user.achievements.map((achievement, index) => (
+                  <p key={index}>• {achievement}</p>
+                ))
               ) : (
                 <p>No achievements added</p>
               )}
 
               <br />
 
-              <strong>
-                Availability:
-              </strong>{" "}
-              {user.mentorAvailability}
+              <strong>Availability:</strong> {user.alumniAvailability}
             </div>
           )}
         </main>

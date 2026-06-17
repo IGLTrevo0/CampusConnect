@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
-import axios from "axios";
+import { manualSignup, googleSignIn } from "../../services/authService";
+import { setAuthSession } from "../../utils/auth";
 
 function SignUpForm({ setIsLogin }) {
   const navigate = useNavigate();
@@ -18,12 +19,9 @@ function SignUpForm({ setIsLogin }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/manual-signup",
-        formData,
-      );
-      if (res.data.email) {
-        navigate("/verify-otp", { state: { email: res.data.email } });
+      const res = await manualSignup(formData);
+      if (res.email) {
+        navigate("/verify-otp", { state: { email: res.email } });
       }
     } catch (error) {
       console.error(error);
@@ -33,12 +31,12 @@ function SignUpForm({ setIsLogin }) {
 
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/google", {
-        credential: credentialResponse.credential,
-        role: formData.role,
-      });
-      if (res.data.email) {
-        navigate("/verify-otp", { state: { email: res.data.email } });
+      const data = await googleSignIn(credentialResponse.credential, formData.role);
+      setAuthSession({ token: data.token, user: data.user });
+      if (data.isNewUser) {
+        navigate("/complete-profile");
+      } else {
+        navigate("/search");
       }
     } catch (error) {
       console.error(error);
@@ -123,7 +121,6 @@ function SignUpForm({ setIsLogin }) {
         <GoogleLogin
           onSuccess={handleGoogleSuccess}
           onError={() => {
-            console.log("Signup Failed");
             alert("Google Signup Failed");
           }}
           text="signup_with"
@@ -139,4 +136,5 @@ function SignUpForm({ setIsLogin }) {
     </div>
   );
 }
+
 export default SignUpForm;

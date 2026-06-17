@@ -1,16 +1,23 @@
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import "./Auth.css";
 import logo from "../../assets/Images/ccicon.png";
+import { verifyOTP, resendOTP } from "../../services/authService";
+import { setAuthSession } from "../../utils/auth";
 
 export default function VerifyOTP() {
   const navigate = useNavigate();
   const location = useLocation();
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
-  
-  const email = location.state?.email || "your email address";
+  const [resending, setResending] = useState(false);
+
+  const email = location.state?.email;
   const nextRoute = location.state?.next || "/search";
+
+  if (!email) {
+    return <Navigate to="/auth" replace />;
+  }
 
   const handleVerify = async (e) => {
     e.preventDefault();
@@ -18,26 +25,32 @@ export default function VerifyOTP() {
       setError("Please enter a valid OTP");
       return;
     }
-    
+
     try {
-      // Need to import axios for this file if not already imported
-      const axios = (await import("axios")).default;
-      const res = await axios.post("http://localhost:5000/api/auth/verify-otp", {
-        email,
-        otp
-      });
-      
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      
-      if (res.data.isNewUser) {
+      const data = await verifyOTP({ email, otp });
+      setAuthSession({ token: data.token, user: data.user });
+
+      if (data.isNewUser) {
         navigate("/complete-profile");
       } else {
-        navigate("/search"); // Or dashboard
+        navigate(nextRoute);
       }
-    } catch (error) {
-      console.error(error);
-      setError(error.response?.data?.message || "Invalid OTP");
+    } catch (err) {
+      console.error(err);
+      setError(err.response?.data?.message || "Invalid OTP");
+    }
+  };
+
+  const handleResend = async () => {
+    setResending(true);
+    setError("");
+    try {
+      await resendOTP(email);
+      alert("A new OTP has been sent to your email.");
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to resend OTP");
+    } finally {
+      setResending(false);
     }
   };
 
@@ -53,35 +66,45 @@ export default function VerifyOTP() {
         </div>
         <div className="auth-card">
           <form onSubmit={handleVerify}>
-          <h1 className="login-title">Verify OTP</h1>
-          <p className="login-sub-title" style={{marginBottom: "2rem", color: "#666"}}>
-            Enter the code sent to {email}
-          </p>
-          
-          {error && <p style={{ color: "red", fontSize: "0.9rem", marginBottom: "1rem" }}>{error}</p>}
-          
-          <div className="inputgroup">
-            <label>One Time Password</label>
-            <input
-              type="text"
-              name="otp"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              placeholder="Enter 6-digit OTP"
-              maxLength={6}
-              autoComplete="off"
-            />
-          </div>
-          
-          <button type="submit" className="loginbtn" style={{marginTop: "1rem"}}>Verify & Continue</button>
+            <h1 className="login-title">Verify OTP</h1>
+            <p className="login-sub-title" style={{ marginBottom: "2rem", color: "#666" }}>
+              Enter the code sent to {email}
+            </p>
 
-          <p className="auth-footer">
-            Didn't receive code?{" "}
-            <span className="auth-link" onClick={() => alert("OTP Resent successfully!")}>
-              Resend OTP
-            </span>
-          </p>
-        </form>
+            {error && (
+              <p style={{ color: "red", fontSize: "0.9rem", marginBottom: "1rem" }}>
+                {error}
+              </p>
+            )}
+
+            <div className="inputgroup">
+              <label>One Time Password</label>
+              <input
+                type="text"
+                name="otp"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                placeholder="Enter 6-digit OTP"
+                maxLength={6}
+                autoComplete="off"
+              />
+            </div>
+
+            <button type="submit" className="loginbtn" style={{ marginTop: "1rem" }}>
+              Verify & Continue
+            </button>
+
+            <p className="auth-footer">
+              Didn&apos;t receive code?{" "}
+              <span
+                className="auth-link"
+                onClick={resending ? undefined : handleResend}
+                style={{ opacity: resending ? 0.6 : 1 }}
+              >
+                {resending ? "Resending..." : "Resend OTP"}
+              </span>
+            </p>
+          </form>
         </div>
       </div>
     </div>
