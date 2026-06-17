@@ -2,6 +2,7 @@ import "./Search.css";
 import { useEffect, useState } from "react";
 import { searchUsers } from "../../services/userService";
 import DiscoveryGrid from "./DiscoveryGrid";
+import { FiSearch } from "react-icons/fi";
 
 function SearchPage() {
   const [users, setUsers] = useState([]);
@@ -76,7 +77,9 @@ function SearchPage() {
         </p>
 
         <div className="search-box">
-          <span className="search-icon"></span>
+          <span className="search-icon">
+            <FiSearch />
+          </span>
           <input
             type="text"
             value={searchTerm}

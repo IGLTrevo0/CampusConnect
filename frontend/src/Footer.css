@@ -5,6 +5,7 @@
     color: #ffe9e9;
     display: flex;
     justify-content: space-between;
+    font-family: 'Inter', sans-serif;
     align-items: center;
     flex-wrap: wrap;
     gap: 30px;
@@ -19,8 +20,9 @@
     height: 50px;
 }
 .footer-title{
+    font-family: 'Outfit', sans-serif;
     font-size: 1.8rem;
-    font-weight: 700;
+    font-weight: 800;
 }
 .footer-right{
     display: flex;
@@ -35,6 +37,8 @@
 .footerlist a{
     text-decoration: none;
     color: inherit;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
 }
 .footerlist li{
     cursor: pointer;
@@ -54,12 +58,14 @@
     text-decoration: none;
     color:#ffd54f;
     font-size: 1.2rem;
+    font-family: 'Outfit', sans-serif;
     font-weight: 700;
 }
 .csedlink:hover{
     text-decoration: underline;
 }
 .copyright{
+    font-family: 'Inter', sans-serif;
     font-size: 0.9rem;
     color: #b5b5b5;
 }

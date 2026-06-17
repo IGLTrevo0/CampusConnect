@@ -1,11 +1,14 @@
 import UserCard from "./UserCard";
-import {UsersRound,} from "lucide-react";
+import { FaUsers } from "react-icons/fa";
 
 function DiscoveryGrid({ filteredUsers, totalUsers, onLoadMore, hasMore }) {
   return (
     <div className="discovery-content">
       <div className="discovery-header">
-        <h2><UsersRound size={20} /> Discovery</h2>
+        <h2>
+          <FaUsers />
+          Discovery
+        </h2>
 
         <div className="results-count">{totalUsers} Results</div>
       </div>

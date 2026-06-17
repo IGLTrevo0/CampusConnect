@@ -1,73 +1,77 @@
-.problems-section{
-    max-width: 1500px;
-    margin: 50px auto;
-    padding: 0 20px;
+.problems-section {
+  max-width: 1500px;
+  margin: 50px auto;
+  padding: 0 20px;
 }
-.problem-heading{
-    text-align: center;
+.problem-heading {
+  text-align: center;
 }
-.problem-heading h1{
-    font-size: 4rem;
-    font-weight: 900;
-    line-height: 1.1;
-}
-.highlight{
-    display: inline-block;
-    margin-top: 10px;
-    padding: 5px 15px;
-    color: #ffd54f;
-    background-color: black;
-    border: 3px solid #ffd54f;
-    border-radius: 8px;
-    box-shadow: 3px 3px 0px #ffd54f;
+.problem-heading h1 {
+  font-size: 4rem;
+  font-family: "Outfit", sans-serif;
+  font-weight: 900;
+  line-height: 1.1;
 }
 
-.problem-description{
-    max-width: 800px;
-    margin: 25px auto 0;
-    text-align: center;
-    font-size:  1.2rem;
-    line-height: 1.7;
-    color: #2f2f2f;
+.highlight {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 5px 15px;
+  color: #ffd54f;
+  background-color: black;
+  border: 3px solid #ffd54f;
+  border-radius: 8px;
+  box-shadow: 3px 3px 0px #ffd54f;
 }
 
-.problem-cards{
-    display: flex;
-    gap: 45px;
-    padding: 25px;
+.problem-description {
+  max-width: 800px;
+  margin: 25px auto 0;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  text-align: center;
+  font-size: 1.2rem;
+  line-height: 1.7;
+  color: #2f2f2f;
 }
-@media(max-width:1024px){
-    .problem-cards{
-        gap: 25px;
-    }
-    .problem-heading h1{
-        font-size: 3rem;
-    }
+
+.problem-cards {
+  display: flex;
+  gap: 45px;
+  padding: 25px;
 }
-@media(max-width:768px){
-    .problem-cards{
-        flex-direction: column;
-        gap: 25px;
-        padding: 0;
-    }
-    .problem-heading h1{
-        font-size: 2.7rem;
-    }
-    .problem-description{
-        font-size: 1.1rem;
-    }
+@media (max-width: 1024px) {
+  .problem-cards {
+    gap: 25px;
+  }
+  .problem-heading h1 {
+    font-size: 3rem;
+  }
 }
-@media(max-width: 480px){
-    .problem-heading h1{
-        font-size: 2rem;
-    }
-    .problem-cards{
-        padding: 20px;
-    }
-    .problem-card-title{
-        font-size: 1.5rem;
-    }
-    .problem-card-description{
-        font-size: 1rem;
-    }
+@media (max-width: 768px) {
+  .problem-cards {
+    flex-direction: column;
+    gap: 25px;
+    padding: 0;
+  }
+  .problem-heading h1 {
+    font-size: 2.7rem;
+  }
+  .problem-description {
+    font-size: 1.1rem;
+  }
+}
+@media (max-width: 480px) {
+  .problem-heading h1 {
+    font-size: 2rem;
+  }
+  .problem-cards {
+    padding: 20px;
+  }
+  .problem-card-title {
+    font-size: 1.5rem;
+  }
+  .problem-card-description {
+    font-size: 1rem;
+  }
 }

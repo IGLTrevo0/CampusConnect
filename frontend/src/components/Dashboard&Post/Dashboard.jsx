@@ -1,9 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import "./Dashboard.css";
-import { ClipboardList, Handshake, FileText } from "lucide-react";
 import { API_URL } from "../../config/api";
 import { getUserName } from "../../utils/auth";
+import {
+  FaClipboardList,
+  FaHandshake,
+  FaFileAlt,
+} from "react-icons/fa";
 
 function getInitials(name) {
   if (!name) return "?";
@@ -250,9 +254,9 @@ function Dashboard() {
   const getApplicantId = (application) => application._id || application.id;
 
   const tabs = [
-    { id: "applications", label: "My Applications", icon: <ClipboardList size={20} /> },
-    { id: "sentConnections", label: "Connection Requests", icon: <Handshake size={20} /> },
-    { id: "myPosts", label: "My Posts", icon: <FileText size={20} /> },
+    { id: "applications", label: "My Applications", icon: <FaClipboardList size={20} /> },
+    { id: "sentConnections", label: "Connection Requests", icon: <FaHandshake size={20} /> },
+    { id: "myPosts", label: "My Posts", icon: <FaFileAlt size={20} /> },
   ];
 
   return (
@@ -282,7 +286,7 @@ function Dashboard() {
         {activeTab === "applications" && (
           <section className="dashboard-section">
             <h2 className="dashboard-section-title">
-              <span><ClipboardList size={20} /></span> My Applications
+              <span><FaClipboardList size={20} /></span> My Applications
             </h2>
             {loading.applications ? (
               <LoadingSpinner />
@@ -324,7 +328,7 @@ function Dashboard() {
         {activeTab === "sentConnections" && (
           <section className="dashboard-section">
             <h2 className="dashboard-section-title">
-              <span><Handshake size={20} /></span> Sent Connection Requests
+              <span><FaHandshake size={20} /></span> Sent Connection Requests
             </h2>
             {loading.sentConnections ? (
               <LoadingSpinner />
@@ -471,7 +475,7 @@ function Dashboard() {
         {activeTab === "myPosts" && (
           <section className="dashboard-section">
             <h2 className="dashboard-section-title">
-              <span><FileText size={20} /></span> My Posts
+              <span><FaFileAlt size={20} /></span> My Posts
             </h2>
             {loading.myPosts ? (
               <LoadingSpinner />

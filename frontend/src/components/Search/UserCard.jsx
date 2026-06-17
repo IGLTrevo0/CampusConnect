@@ -32,7 +32,14 @@ function UserCard({ user }) {
         }}
       ></div>
       <div className="role-badge">{user.role}</div>
-      <div className="card-avatar"></div>
+      <img
+        className="card-avatar"
+        src={
+          user.profilePicture ||
+          "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.name)
+        }
+        alt={user.name}
+      />
       <div className="card-content">
         <h3>{user.name}</h3>
         <p>
@@ -61,7 +68,9 @@ function UserCard({ user }) {
           View Profile
         </button>
         {connectMsg && (
-          <p style={{ fontSize: "0.8rem", marginTop: "0.5rem" }}>{connectMsg}</p>
+          <p style={{ fontSize: "0.8rem", marginTop: "0.5rem" }}>
+            {connectMsg}
+          </p>
         )}
       </div>
     </div>

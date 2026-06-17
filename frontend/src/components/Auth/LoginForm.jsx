@@ -74,12 +74,10 @@ function LoginForm({ setIsLogin }) {
         </button>
       </form>
 
-      <div style={{ display: "flex", alignItems: "center", margin: "2rem 0" }}>
-        <hr style={{ flex: 1, borderColor: "#eee", margin: 0 }} />
-        <span style={{ margin: "0 10px", color: "#888", fontSize: "0.9rem" }}>
-          OR
-        </span>
-        <hr style={{ flex: 1, borderColor: "#eee", margin: 0 }} />
+      <div className="auth-divider">
+        <hr />
+        <span>OR</span>
+        <hr />
       </div>
 
       <div style={{ display: "flex", justifyContent: "center" }}>

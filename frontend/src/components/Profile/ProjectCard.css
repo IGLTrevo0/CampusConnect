@@ -1,0 +1,34 @@
+.profile-project-card {
+  border: 2px solid #111;
+  border-radius: 12px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 3px 3px 0 #111;
+  transition: all 0.2s ease;
+}
+
+.profile-project-card:hover {
+  transform: translateY(-4px);
+}
+
+.profile-project-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.profile-project-body {
+  padding: 16px;
+}
+
+.profile-project-body h3 {
+  margin: 0 0 10px;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.profile-project-body p {
+  margin-bottom: 14px;
+  color: #555;
+  line-height: 1.5;
+}

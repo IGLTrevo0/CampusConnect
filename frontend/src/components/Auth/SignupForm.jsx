@@ -31,7 +31,10 @@ function SignUpForm({ setIsLogin }) {
 
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
-      const data = await googleSignIn(credentialResponse.credential, formData.role);
+      const data = await googleSignIn(
+        credentialResponse.credential,
+        formData.role,
+      );
       setAuthSession({ token: data.token, user: data.user });
       if (data.isNewUser) {
         navigate("/complete-profile");
@@ -109,14 +112,11 @@ function SignUpForm({ setIsLogin }) {
         </button>
       </form>
 
-      <div style={{ display: "flex", alignItems: "center", margin: "2rem 0" }}>
-        <hr style={{ flex: 1, borderColor: "#eee", margin: 0 }} />
-        <span style={{ margin: "0 10px", color: "#888", fontSize: "0.9rem" }}>
-          OR
-        </span>
-        <hr style={{ flex: 1, borderColor: "#eee", margin: 0 }} />
+      <div className="auth-divider">
+        <hr />
+        <span>OR</span>
+        <hr />
       </div>
-
       <div style={{ display: "flex", justifyContent: "center" }}>
         <GoogleLogin
           onSuccess={handleGoogleSuccess}

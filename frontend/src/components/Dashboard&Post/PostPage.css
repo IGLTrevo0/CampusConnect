@@ -1,9 +1,15 @@
 .postpage {
   padding: 110px 30px 60px;
   max-width: 1200px;
+  font-family: "Inter", sans-serif;
   margin: 0 auto;
 }
 
+.dashboard-header h1,
+.dashboard-section-title,
+.dashboard-subsection-title {
+  font-family: "Outfit", sans-serif;
+}
 .postpage-header {
   text-align: center;
   margin-bottom: 2.5rem;
@@ -21,6 +27,14 @@
   display: inline-block;
   border: 2px solid black;
   transform: rotate(-1deg);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  border-radius: 6px;
+}
+.postpage-form-group input,
+.postpage-form-group select,
+.postpage-form-group textarea {
+  font-family: 'Inter', sans-serif;
 }
 
 .postpage-header p {
@@ -29,8 +43,6 @@
   max-width: 600px;
   margin: 0 auto;
 }
-
-/* ── Create Post Form ── */
 
 .postpage-form-section {
   margin-bottom: 3rem;
@@ -50,7 +62,7 @@
 .postpage-form {
   border: 2px solid #111111;
   border-radius: 16px;
-  box-shadow: 6px 6px 0 #000000;
+  box-shadow: 4px 4px 0 #000000;
   background-color: white;
   padding: 28px;
 }
@@ -186,10 +198,9 @@
   display: inline-block;
   border: 1px solid #111111;
   border-radius: 90px;
-  padding: 4px 12px;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  background-color: #f8fbff;
+  padding: 5px 14px;
 }
 
 .postpage-tag-hackathon {
@@ -200,6 +211,10 @@
 .postpage-tag-collaboration {
   background-color: #dcfce7;
   color: #166534;
+}
+.postpage-submit-btn {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
 }
 
 .postpage-card-desc {
