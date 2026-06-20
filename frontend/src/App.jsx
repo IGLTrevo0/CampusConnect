@@ -17,6 +17,8 @@ import { isAuthenticated } from "./utils/auth";
 import MeetTheTeam from "./Meet_the_team";
 
 function ProtectedRoute({ children }) {
+  console.log("TOKEN:", localStorage.getItem("token"));
+  console.log("AUTH:", isAuthenticated());
   if (!isAuthenticated()) {
     return <Navigate to="/auth" replace />;
   }

@@ -33,11 +33,14 @@ function Hero() {
             across university - based on what they actually build.
           </p>
           <div className="hero-buttons" id="herobtn">
-            <button className="no-acc" onClick={() => navigate("/auth")}>
+            <button className="no-acc" onClick={() => navigate("/auth", {
+                      state: { isLogin: false },
+                    })}>
               <img src={noacc} alt="rightarrow" />
               Create your Profile
             </button>
-            <button className="have-acc" onClick={() => navigate("/auth")}>
+            <button className="have-acc" onClick={() => navigate("/auth", {
+                      state: { isLogin: true }})}>
               I have an account
             </button>
           </div>

@@ -1,40 +1,40 @@
 import React from 'react';
+import { ExternalLink } from "lucide-react";
+import "./ProjectCard.css";
 
-export default function ProjectCard({ title, description, image, tags, badge }) {
+export default function ProjectCard({ title, description, image, tags, badge, link }) {
   return (
-    <div className="profile-project-card" style={{ position: 'relative' }}>
-      <img src={image || "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=500"} alt={title} />
-      
-      {badge && (
-        <span 
-          style={{
-            position: 'absolute',
-            top: '12px',
-            right: '12px',
-            background: '#f4c542',
-            border: '2px solid #111',
-            padding: '2px 8px',
-            fontSize: '11px',
-            fontWeight: '800',
-            borderRadius: '4px',
-            color: '#111'
-          }}
-        >
-          {badge}
-        </span>
+    <div className="profile-project-card manual-work-card">
+      {image && (
+        <div className="project-card-image-wrapper">
+          <img src={image} alt={title} />
+        </div>
       )}
-
       <div className="profile-project-body">
-        <h3>{title}</h3>
+        <div className="project-card-header">
+          <h3>{title}</h3>
+          {badge && <span className="project-badge">{badge}</span>}
+        </div>
+        
         <p>{description}</p>
         
         <div className="profile-tags">
-          {tags && tags.length > 0 ? (
-            tags.map((tag, index) => <span key={index}>{tag}</span>)
-          ) : (
-            <span>Code</span>
-          )}
+          {tags && tags.map((tag) => (
+            <span key={tag}>{tag}</span>
+          ))}
         </div>
+
+        {link && (
+          <a 
+            href={link} 
+            target="_blank" 
+            rel="noreferrer" 
+            className="project-view-action-btn"
+          >
+            <span>View Project</span>
+            <ExternalLink size={14} />
+          </a>
+        )}
       </div>
     </div>
   );
